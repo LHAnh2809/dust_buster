@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "730014822368",
+    "project_id": "dustbuster-d9b9f",
+    "storage_bucket": "dustbuster-d9b9f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:730014822368:android:ec1322f7d8e22db6c58585",
+        "android_client_info": {
+          "package_name": "com.example.dust_buster"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-4ApZSQGC7zJ0qGjAITgkXyA98JV_f_Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

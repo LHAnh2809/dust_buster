@@ -1,0 +1,80 @@
+
+import 'package:flutter/material.dart';
+
+import '../../../../../common/util/exports.dart';
+import '../../../../../data/models/job_details_models/job_details.dart';
+import '../../../../widgets/custom_svg.dart';
+
+class PaymentMethods extends StatelessWidget {
+  final JobDetails model;
+  const PaymentMethods({Key? key, required this.model}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: AppColors.white,
+      padding: const EdgeInsets.all(16).r,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Phương thức thanh toán',
+            style: AppTextStyle.textbodyStyle,
+          ),
+          SizedBox(width: 0.0, height: 16.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Tổng cộng',
+                style: AppTextStyle.textsmallStyle,
+              ),
+              Text(
+                '${Utils.formatNumber(int.parse(model.price.toString()))}đ',
+                style: AppTextStyle.textbodyStyle,
+              )
+            ],
+          ),
+          SizedBox(width: 0.0, height: 4.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                int.parse(model.paymentMethods.toString()) != 2
+                    ? 'Tiền mặt'
+                    : "Ví 3CleanPay",
+                style: AppTextStyle.textsmallStyle
+                    .copyWith(color: AppColors.kGray500Color),
+              ),
+              SizedBox(width: 4.w, height: 0.0),
+              Container(
+                width: 24.w,
+                height: 24.h,
+                padding: const EdgeInsets.all(2).r,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6).r,
+                  gradient: const LinearGradient(
+                    colors: [
+                      AppColors.kBrightPurpleColor,
+                      AppColors.kDarkPurpleColor,
+                    ], // Mặc định gradient
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
+                child: CustomSvg(
+                  image: int.parse(model.paymentMethods.toString()) == 2
+                      ? AppImages.iconWallet
+                      : AppImages.iconMoneyDollarBox,
+                  width: 15.w,
+                  color: AppColors.white,
+                  height: 15.h,
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
