@@ -18,6 +18,10 @@ class WaitingController extends GetxController
   var hasRepeatStateOne = false.obs;
   var isLoading = false.obs;
 
+  var soSao = 0.obs;
+
+  var noiDungdanhgia = TextEditingController();
+
   @override
   void onInit() {
     getPendingInvoicee();
@@ -57,6 +61,31 @@ class WaitingController extends GetxController
         print('Error parsing date/time: $e');
       }
     });
+  }
+
+  void postDanhgia(String idP, String idID) async {
+    try {
+      if (soSao.value == 0) {
+        return Utils.showSnackbar('Vui lòng chọn số sao',
+            AppImages.iconCircleCheck, AppColors.kRrror400Color);
+      }
+      if (noiDungdanhgia.text.isEmpty) {
+        return Utils.showSnackbar('Vui lòng điền nội dung đánh giá',
+            AppImages.iconCircleCheck, AppColors.kRrror400Color);
+      }
+      final response = await _apiHelper.postDanhGia(
+          idP: idP, idID: idID, star: soSao.value, note: noiDungdanhgia.text);
+      if (response['detail'] == 0) {
+        getHistoryy();
+        noiDungdanhgia.clear();
+        Get.back();
+        Get.back();
+        return Utils.showSnackbar('Đánh giá thành công',
+            AppImages.iconCircleCheck, AppColors.kSuccess600Color);
+      }
+    } catch (e) {
+      debugPrint('Error in getPendingInvoicee: $e');
+    }
   }
 
   void putAcceptJobb(String idParther, String idInvoiceDetails) async {
@@ -214,9 +243,9 @@ class WaitingController extends GetxController
       final response = await _apiHelper.putComplete(
           id: model.idID.toString(),
           money: int.parse(model.price.toString()),
-          note: Utils.getLabel(int.parse(model!.label.toString())),
+          note: Utils.getLabel(int.parse(model.label.toString())),
           wallet: 'Nhận từ khách hàng',
-          status: 0,
+          status: 3,
           idP: model.idPT.toString());
       if (response['detail'] == "OK") {
         getPendingInvoicee();

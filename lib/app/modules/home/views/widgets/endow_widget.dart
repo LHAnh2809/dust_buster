@@ -54,7 +54,6 @@ class EndowWidget extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(width: 0.0, height: 8.h),
           SizedBox(
             height: 185.h,
             child: ListView.builder(

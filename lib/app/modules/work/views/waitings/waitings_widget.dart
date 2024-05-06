@@ -223,7 +223,7 @@ class WaitingsWidget extends StatelessWidget {
                     Column(
                       children: [
                         SizedBox(width: 0.0, height: 12.h),
-                        JobDetailsWidget(
+                        const JobDetailsWidget(
                           image: AppImages.iconErrorWarning,
                           text: 'Bạn chưa đánh giá đối tác',
                           color: AppColors.kGray400Color,

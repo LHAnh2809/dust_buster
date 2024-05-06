@@ -140,7 +140,6 @@ class CleaningController extends GetxController
         price: finalMoney.toInt(),
         gPoints: textPoint.toInt(),
         paymentMethods: paymentMethod,
-        petStatus: pet,
         repeatState: repeat,
         premiumService: premiumService,
         note: Utils.getLabel(1),

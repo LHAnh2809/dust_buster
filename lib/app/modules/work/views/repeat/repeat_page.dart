@@ -29,7 +29,7 @@ class RepeatPage extends GetView<WaitingController> {
                       final PendingInvoices? model =
                           state![index] as PendingInvoices?;
 
-                      if (model!.repeatState == 1 && model.invoiceStatus == 1) {
+                      if (model!.repeatState == 1) {
                         return WaitingsWidget(
                           model: model,
                           title:

@@ -123,7 +123,7 @@ class DetailerPage extends GetView<WaitingController> {
                 ),
               ),
               SizedBox(width: 0.0, height: 32.h),
-              Text('Nhập xét', style: AppTextStyle.lableBodyStyle),
+              Text('Nhận xét', style: AppTextStyle.lableBodyStyle),
               SizedBox(width: 0.0, height: 16.h),
               if (model.user!.isNotEmpty)
                 SizedBox(
@@ -143,11 +143,42 @@ class DetailerPage extends GetView<WaitingController> {
                           children: [
                             Row(
                               children: [
-                                CircleAvatar(
-                                  radius: 20.r,
-                                  backgroundImage: NetworkImage(
-                                      model.user![index].imageU.toString()),
-                                ),
+                                if (model.user![index].imageU.toString() != "")
+                                  CircleAvatar(
+                                    radius: 20.r,
+                                    backgroundImage: NetworkImage(
+                                        model.user![index].imageU.toString()),
+                                  ),
+                                if (model.user![index].imageU.toString() == "")
+                                  Stack(
+                                    children: [
+                                      Container(
+                                        width: 48.w,
+                                        height: 48.h,
+                                        decoration: BoxDecoration(
+                                          color: AppColors.kGray200Color,
+                                          shape: BoxShape.circle,
+                                          border: Border.all(width: 3),
+                                        ),
+                                        child: SvgPicture.asset(
+                                          AppImages.iconAvtUser,
+                                          fit: BoxFit.cover,
+                                          width: 41.w,
+                                          height: 41.h,
+                                        ),
+                                      ),
+                                      Container(
+                                        width: 48.w,
+                                        height: 48.h,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                              width: 3,
+                                              color: AppColors.kGray200Color),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 SizedBox(width: 8.w, height: 0.0),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,

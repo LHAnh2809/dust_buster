@@ -84,7 +84,6 @@ abstract class ApiHelper {
       required int price,
       required int gPoints,
       required int paymentMethods,
-      required int petStatus,
       required int premiumService,
       required int repeatState});
 
@@ -119,5 +118,9 @@ abstract class ApiHelper {
     required int status,
     required String idP,
   });
+
   Future<Map<String, dynamic>> getHistory();
+
+  Future<Map<String, dynamic>> postDanhGia(
+      {required String idP, required String idID, required int star, required String note});
 }

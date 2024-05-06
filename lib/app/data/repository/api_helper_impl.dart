@@ -602,7 +602,6 @@ class ApiHelperImpl implements ApiHelper {
       required int price,
       required int gPoints,
       required int paymentMethods,
-      required int petStatus,
       required int premiumService,
       required int repeatState}) async {
     return await ApiErrorHandler.handleError(() async {
@@ -631,7 +630,6 @@ class ApiHelperImpl implements ApiHelper {
               "gPoints": gPoints,
               "paymentMethods": paymentMethods,
               "premium_service": premiumService,
-              "petStatus": petStatus,
               "repeat_state": repeatState
             }),
             headers: getHeaders(accessToken!),
@@ -884,6 +882,37 @@ class ApiHelperImpl implements ApiHelper {
         return jsonResponse;
       } else {
         throw Exception('Sửa địa chỉ mặc định thất bại');
+      }
+    });
+  }
+
+  @override
+  Future<Map<String, dynamic>> postDanhGia(
+      {required String idP,
+      required String idID,
+      required int star,
+      required String note}) {
+    return ApiErrorHandler.handleError(() async {
+      final url = '$apiUrl/post-danhgia/';
+      String? accessToken = Storage.getValue<String>('access_token');
+      final response = await http
+          .post(
+            Uri.parse(url),
+            body: jsonEncode({
+              "idP": idP,
+              "idID": idID,
+              "sao": star,
+              "note": note,
+            }),
+            headers: getHeaders(accessToken!),
+          )
+          .timeout(myTimeout);
+
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+        return jsonResponse;
+      } else {
+        throw Exception('Đánh giá thất bại');
       }
     });
   }

@@ -11,6 +11,7 @@ class JobAcceptanceStatus extends StatelessWidget {
   final int fourStar;
   final int fiveStar;
   final String phonenumberPT;
+  final int oderStatus;
   final WaitingController controller;
   const JobAcceptanceStatus(
       {Key? key,
@@ -23,7 +24,8 @@ class JobAcceptanceStatus extends StatelessWidget {
       required this.phonenumberPT,
       required this.fiveStar,
       required this.image,
-      required this.controller})
+      required this.controller,
+      required this.oderStatus})
       : super(key: key);
 
   @override
@@ -130,22 +132,23 @@ class JobAcceptanceStatus extends StatelessWidget {
             ],
           ),
           if (id != "")
-            Row(
-              children: [
-                ButtonCircleWidge(
-                  onTap: () {},
-                  images: AppImages.iconNote,
-                ),
-                SizedBox(width: 16.w, height: 0.0),
-                ButtonCircleWidge(
-                  onTap: () {
-                    Utils.makePhoneCall(phonenumberPT);
-                    // Utils.makePhoneCall('0876954462');
-                  },
-                  images: AppImages.iconsPhoneFill,
-                ),
-              ],
-            )
+            if (oderStatus != 5 && oderStatus != 6)
+              Row(
+                children: [
+                  ButtonCircleWidge(
+                    onTap: () {},
+                    images: AppImages.iconNote,
+                  ),
+                  SizedBox(width: 16.w, height: 0.0),
+                  ButtonCircleWidge(
+                    onTap: () {
+                      Utils.makePhoneCall(phonenumberPT);
+                      // Utils.makePhoneCall('0876954462');
+                    },
+                    images: AppImages.iconsPhoneFill,
+                  ),
+                ],
+              )
         ],
       ),
     );

@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../../../../common/util/navigator.dart';
 import '../../../../../../login/exports.dart';
 import '../../../../../../widgets/custom_svg.dart';
+import '../../../../../../widgets/text_field_widget.dart';
 import '../../../../../exports.dart';
 
 class Time2Page extends StatelessWidget {
@@ -245,11 +246,10 @@ class Time2Page extends StatelessWidget {
                     color: AppColors.kButtonColor,
                   ),
                   SizedBox(width: 8.w, height: 0.0),
-                  SizedBox(
-                    width: 295.w,
+                  Expanded(
                     child: Text(
-                      maxLines: 2,
                       'Lưu ý! Giá dịnh vụ tăng do nhu cầu công việc tăng trong thời điểm này',
+                      maxLines: 2,
                       style: AppTextStyle.textxsmallStyle,
                     ),
                   )
@@ -453,16 +453,10 @@ class Time2Page extends StatelessWidget {
               ),
             ),
             SizedBox(width: 0.0, height: 16.h),
-            TextFormWidget(
-              height: 117.h,
+            TextFieldWidget(
               controller: controller.textEmployeeNotesEditingController,
               hintText: 'Nhập ở đây những yêu cầu hoặc lưu ý của bạn ở đây...',
-              textInputType: TextInputType.text,
-              obscureText: false.obs,
-              togglePasswordVisibility: () {},
-              showButton: false,
-              onChanged: (value) {},
-              maxLines: 3,
+              obsNhapText: false,
             ),
           ],
         ),

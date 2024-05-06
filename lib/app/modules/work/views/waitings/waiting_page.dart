@@ -18,7 +18,7 @@ class WaitingPage extends GetView<WaitingController> {
           // physics: const ClampingScrollPhysics(),
           children: [
             Container(
-              margin: EdgeInsets.only(left: 16, right: 16, bottom: 16).r,
+              margin: const EdgeInsets.only(left: 16, right: 16, bottom: 16).r,
               child: controller.obx(
                 (state) {
                   return ListView.separated(

@@ -21,7 +21,6 @@ class PendingInvoices {
   String? phonenumberPT;
   int? orderStatus;
   int? premiumService;
-  int? invoiceStatus;
   int? repeatState;
   int? paymentMethods;
   int? oneStar;
@@ -52,7 +51,6 @@ class PendingInvoices {
       this.employeeNotes,
       this.premiumService,
       this.orderStatus,
-      this.invoiceStatus,
       this.repeatState,
       this.paymentMethods,
       this.oneStar,
@@ -82,7 +80,6 @@ class PendingInvoices {
     petNotes = json['petNotes'];
     employeeNotes = json['employeeNotes'];
     orderStatus = json['orderStatus'];
-    invoiceStatus = json['invoiceStatus'];
     repeatState = json['repeatState'];
     paymentMethods = json['payment_methods'];
     premiumService = json['premiumService'];
@@ -120,7 +117,6 @@ class PendingInvoices {
     data['petNotes'] = this.petNotes;
     data['employeeNotes'] = this.employeeNotes;
     data['orderStatus'] = this.orderStatus;
-    data['invoiceStatus'] = this.invoiceStatus;
     data['repeatState'] = this.repeatState;
     data['payment_methods'] = this.paymentMethods;
     data['premiumService'] = this.premiumService;

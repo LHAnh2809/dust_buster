@@ -107,7 +107,7 @@ class RechargePage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(16).r,
+                        padding: const EdgeInsets.all(14).r,
                         child: Row(
                           children: [
                             SizedBox(

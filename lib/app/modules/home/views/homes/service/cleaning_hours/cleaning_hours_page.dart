@@ -1,5 +1,7 @@
 import 'package:dust_buster/app/common/util/navigator.dart';
 import 'package:dust_buster/app/modules/home/exports.dart';
+import 'package:dust_buster/app/modules/widgets/custom_appbar_widget.dart';
+import 'package:dust_buster/app/modules/widgets/text_field_widget.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:dust_buster/app/modules/login/view/widgets/text_form_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,20 +13,8 @@ class CleaningHoursPage extends GetView<CleaningController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: AppBar(
-        backgroundColor: AppColors.white,
-        leading: InkWell(
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          onTap: () {
-            Get.back();
-          },
-          child: Icon(
-            Ionicons.arrow_back_outline,
-            size: 24.sp,
-          ),
-        ),
-        title: Obx(
+      appBar: CustomAppbarWidget(
+        titleWidget: Obx(
           () => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -49,7 +39,7 @@ class CleaningHoursPage extends GetView<CleaningController> {
               return Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 14).r,
+                    padding: const EdgeInsets.only(top: 14, right: 16).r,
                     child: ButtonWidget(
                       onTap: () {
                         goPresent(
@@ -65,7 +55,6 @@ class CleaningHoursPage extends GetView<CleaningController> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 50.w, height: 0.0),
                 ],
               );
             } else {
@@ -95,16 +84,10 @@ class CleaningHoursPage extends GetView<CleaningController> {
                         SizedBox(width: 0.0, height: 8.h),
                         Obx(() {
                           if (controller.isPet.value == true) {
-                            return TextFormWidget(
-                              height: 93.h,
+                            return TextFieldWidget(
                               controller: controller.textPetEditingController,
                               hintText: 'Nhập ghi chú về vật nuôi...',
-                              textInputType: TextInputType.text,
-                              obscureText: false.obs,
-                              togglePasswordVisibility: () {},
-                              showButton: false,
-                              onChanged: (value) {},
-                              maxLines: 3,
+                              obsNhapText: false,
                             );
                           } else {
                             return const SizedBox.shrink();

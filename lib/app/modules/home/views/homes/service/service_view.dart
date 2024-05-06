@@ -15,14 +15,13 @@ class ServiceView extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16.0),
       child: Wrap(
-        spacing: 24.w, // Khoảng cách giữa các hình ảnh
-        runSpacing: 16.h, // Khoảng cách giữa các dòng
+        spacing: 24.w, 
+        runSpacing: 16.h, 
         children: List.generate(
-          8, // Số lượng hình ảnh, bao gồm cả hình ảnh cuối cùng
+          8,
           (index) {
-           
             if (index < 7) {
-               final service = model!.service![index];
+              final service = model!.service![index];
               return InkWell(
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
@@ -60,18 +59,14 @@ class ServiceView extends StatelessWidget {
                       ),
                       SizedBox(width: 0.0, height: 4.h),
                       Text(
-                        textAlign: TextAlign.center,
-                        service.name.toString(),
-                        style: AppTextStyle.textbodyStyle.copyWith(
-                          fontSize: 9.sp,
-                        ),
-                      ),
+                          textAlign: TextAlign.center,
+                          service.name.toString(),
+                          style: AppTextStyle.textsmallStyle10),
                     ],
                   ),
                 ),
               );
             } else {
-              // Trường hợp hiển thị item cuối cùng
               return InkWell(
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
@@ -106,9 +101,7 @@ class ServiceView extends StatelessWidget {
                       Text(
                         textAlign: TextAlign.center,
                         'Xem Thêm',
-                        style: AppTextStyle.textbodyStyle.copyWith(
-                          fontSize: 9.sp,
-                        ),
+                        style: AppTextStyle.textsmallStyle10,
                       ),
                     ],
                   ),
