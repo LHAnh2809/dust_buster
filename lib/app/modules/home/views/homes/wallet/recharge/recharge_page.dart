@@ -12,8 +12,8 @@ import '../widgets/load_authentication.dart';
 
 class RechargePage extends StatelessWidget {
   final WalletController controller;
-  final CleanWallet model;
-  const RechargePage({Key? key, required this.controller, required this.model})
+  final CleanWallet? model;
+  const RechargePage({Key? key, required this.controller, this.model})
       : super(key: key);
 
   @override
@@ -122,7 +122,7 @@ class RechargePage extends StatelessWidget {
                                             color: AppColors.kGray500Color),
                                   ),
                                   Text(
-                                      '${Utils.formatNumber(int.parse(model.moneyU.toString()))}đ',
+                                      '${Utils.formatNumber(int.parse(model!.moneyU.toString()))}đ',
                                       style: AppTextStyle.titleBodyStyle28),
                                 ],
                               ),
@@ -458,16 +458,16 @@ class RechargePage extends StatelessWidget {
                   ],
                 ),
               ),
-              if (model.wallet!.isNotEmpty)
+              if (model!.wallet!.isNotEmpty)
                 SingleChildScrollView(
                   child: SizedBox(
                     height: 400.h,
                     child: ListView.separated(
                       padding: EdgeInsets.zero,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: model.wallet!.length,
+                      itemCount: model!.wallet!.length,
                       itemBuilder: (context, index) {
-                        final models = model.wallet![index];
+                        final models = model!.wallet![index];
                         return Padding(
                           padding: const EdgeInsets.all(16).r,
                           child: Row(
@@ -549,7 +549,7 @@ class RechargePage extends StatelessWidget {
                     ),
                   ),
                 ),
-              if (model.wallet!.isEmpty)
+              if (model!.wallet!.isEmpty)
                 SizedBox(
                   height: 400.h,
                   child: const WalletEmpty(),

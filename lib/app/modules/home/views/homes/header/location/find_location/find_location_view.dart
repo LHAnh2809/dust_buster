@@ -1,5 +1,6 @@
 import 'package:dust_buster/app/data/models/viet_map_models/auto_complete/auto_complete_model.dart';
 import 'package:dust_buster/app/modules/home/exports.dart';
+import 'package:dust_buster/app/modules/widgets/custom_appbar_widget.dart';
 
 import '../../../../../../widgets/custom_empty_widget.dart';
 
@@ -11,24 +12,8 @@ class FindLocationView extends GetView<FindLocationController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: AppBar(
-        backgroundColor: AppColors.white,
-        centerTitle: true,
-        leading: InkWell(
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          onTap: () {
-            Get.back();
-          },
-          child: Icon(
-            Ionicons.arrow_back_outline,
-            size: 24.sp,
-          ),
-        ),
-        title: Text(
-          Strings.findLocation,
-          style: AppTextStyle.textButtonStyle.copyWith(color: AppColors.black),
-        ),
+      appBar: CustomAppbarWidget(
+        title: Strings.findLocation,
       ),
       body: Stack(
         children: [

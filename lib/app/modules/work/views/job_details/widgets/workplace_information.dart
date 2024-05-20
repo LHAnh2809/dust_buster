@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import '../../../../../common/util/exports.dart';
 import '../../../../../data/models/pending_invoices_models/pending_invoices.dart';
 
-
 class WorkplaceInformation extends StatelessWidget {
   final PendingInvoices model;
   const WorkplaceInformation({Key? key, required this.model}) : super(key: key);
@@ -21,7 +20,18 @@ class WorkplaceInformation extends StatelessWidget {
             'Thông tin chổ làm',
             style: AppTextStyle.textbodyStyle,
           ),
-          SizedBox(width: 0.0, height: 16.h),
+          if (model.label == 2)
+            Column(
+              children: [
+                SizedBox(width: 0.0, height: 16.h),
+                JobDetailsWidget(
+                  image: AppImages.iconCalendar2Line,
+                  text: model.duration.toString(),
+                  color: AppColors.kGray400Color,
+                ),
+              ],
+            ),
+          SizedBox(width: 0.0, height: 12.h),
           JobDetailsWidget(
             image: AppImages.iconDate,
             text: model.workingDay.toString(),
@@ -31,13 +41,24 @@ class WorkplaceInformation extends StatelessWidget {
             image: AppImages.iconTime,
             text: model.workTime.toString(),
           ),
-          if (model.repeat.toString() != '')
+          if (model.repeatState == 1)
             Column(
               children: [
                 SizedBox(width: 0.0, height: 12.h),
                 JobDetailsWidget(
                   image: AppImages.iconRepeat,
                   text: model.repeat.toString(),
+                ),
+              ],
+            ),
+          if (model.label == 2)
+            Column(
+              children: [
+                SizedBox(width: 0.0, height: 16.h),
+                JobDetailsWidget(
+                  image: AppImages.iconRepeat,
+                  text: "${model.numberSessions.toString()} buổi",
+                  color: AppColors.kGray400Color,
                 ),
               ],
             ),

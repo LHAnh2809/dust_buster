@@ -5,6 +5,8 @@ class PendingInvoices {
   String? idIV;
   String? idPT;
   int? label;
+  String? duration;
+  String? numberSessions;
   String? imagePT;
   String? namePT;
   String? phoneNumber;
@@ -13,6 +15,7 @@ class PendingInvoices {
   String? workingDay;
   String? workTime;
   String? repeat;
+  int? cancellationFee;
   String? location;
   int? price;
   String? roomArea;
@@ -35,11 +38,14 @@ class PendingInvoices {
       this.idIV,
       this.idPT,
       this.label,
+      this.duration,
+      this.numberSessions,
       this.imagePT,
       this.namePT,
       this.phoneNumber,
       this.nameU,
       this.postingTime,
+      this.cancellationFee,
       this.workingDay,
       this.workTime,
       this.repeat,
@@ -65,6 +71,9 @@ class PendingInvoices {
     idIV = json['idIV'];
     idPT = json['idPT'];
     label = json['label'];
+    numberSessions = json['number_sessions'];
+    cancellationFee = json['cancellationFee'];
+    duration = json['duration'];
     imagePT = json['imagePT'];
     namePT = json['namePT'];
     phoneNumber = json['phoneNumber'];
@@ -102,9 +111,12 @@ class PendingInvoices {
     data['idIV'] = this.idIV;
     data['idPT'] = this.idPT;
     data['label'] = this.label;
+    data['duration'] = this.duration;
+    data['number_sessions'] = this.numberSessions;
     data['imagePT'] = this.imagePT;
     data['namePT'] = this.namePT;
     data['phoneNumber'] = this.phoneNumber;
+    data['cancellationFee'] = this.cancellationFee;
     data['nameU'] = this.nameU;
     data['postingTime'] = this.postingTime;
     data['workingDay'] = this.workingDay;

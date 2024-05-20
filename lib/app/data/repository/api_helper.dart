@@ -65,34 +65,42 @@ abstract class ApiHelper {
     required String lng,
   });
 
-  Future<Map<String, dynamic>> postCreateInvoice(
-      {required String idP,
-      required int label,
-      required String nameUser,
-      required String phoneNumber,
-      required String location,
-      required String location2,
-      required String lat,
-      required String lng,
-      required String repeat,
-      required String petNote,
-      required String employeeNote,
-      required String workingDay,
-      required String workTime,
-      required String roomArea,
-      required String note,
-      required int price,
-      required int gPoints,
-      required int paymentMethods,
-      required int premiumService,
-      required int repeatState});
+  Future<Map<String, dynamic>> postCreateInvoice({
+    required String idP,
+    required int label,
+    required String nameUser,
+    required String phoneNumber,
+    required String location,
+    required String location2,
+    required String lat,
+    required String lng,
+    required String repeat,
+    required String petNote,
+    required String employeeNote,
+    required String workingDay,
+    required String workTime,
+    required String roomArea,
+    required String note,
+    required int price,
+    required int gPoints,
+    required int paymentMethods,
+    required int premiumService,
+    required int repeatState,
+    required String duration,
+    required String numberSessions,
+    required String removalDate,
+  });
 
   Future<Map<String, dynamic>> getNotificationCalendar();
 
   Future<Map<String, dynamic>> getJobDetails({required String id});
 
+  Future<Map<String, dynamic>> getWorkCompleted({required String id});
+
   Future<Map<String, dynamic>> putNotification({required String id});
+
   Future<Map<String, dynamic>> get3cleanWallet();
+
   Future<Map<String, dynamic>> postWallet(
       {required int price,
       required int money,
@@ -100,16 +108,20 @@ abstract class ApiHelper {
       required String wallet,
       required int status});
 
+  Future<Map<String, dynamic>> postPeriodicallyCanneled(
+      {required int stt, required String idI, required int money});
+
   Future<Map<String, dynamic>> putAcceptJob(
       {required String idParther, required String idInvoiceDetails});
 
   Future<Map<String, dynamic>> getPartnerInformation({required String id});
-  Future<Map<String, dynamic>> putCancelJob({
-    required int orderStatus,
-    required int Stt,
-    required int price,
-    required String idInvoiceDetails,
-  });
+  Future<Map<String, dynamic>> getPeriodically();
+  Future<Map<String, dynamic>> putCancelJob(
+      {required String idU,
+      required int Stt,
+      required int price,
+      required String idInvoiceDetails,
+      required String reasonCancellation});
   Future<Map<String, dynamic>> putComplete({
     required String id,
     required int money,
@@ -122,5 +134,8 @@ abstract class ApiHelper {
   Future<Map<String, dynamic>> getHistory();
 
   Future<Map<String, dynamic>> postDanhGia(
-      {required String idP, required String idID, required int star, required String note});
+      {required String idP,
+      required String idID,
+      required int star,
+      required String note});
 }

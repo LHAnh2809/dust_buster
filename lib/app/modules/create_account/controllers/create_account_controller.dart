@@ -335,8 +335,9 @@ class CreateAccountController extends GetxController {
 
         Get.offNamed(Routes.login);
         return Utils.showSnackbar(
-            "Bạn đã đăng ký thành công vui lòng đăng nhập để sử dụng dịch vụ",
-            "",AppColors.amaranth);
+            message:
+                "Bạn đã đăng ký thành công vui lòng đăng nhập để sử dụng dịch vụ",
+            colors: AppColors.amaranth);
       }
     } catch (e) {
       debugPrint(e.toString());

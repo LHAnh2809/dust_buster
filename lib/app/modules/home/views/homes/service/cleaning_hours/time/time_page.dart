@@ -46,7 +46,7 @@ class TimePage extends StatelessWidget {
                         controller.totalAmount.value;
                     controller.textTimeRequest.value = serviceDuration.time!;
                     controller.selectTimeOption(index);
-                    controller.updatePrimium();
+                    controller.updatePrimium(1);
                   },
                   widget: Container(
                     width: 167.w,

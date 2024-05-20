@@ -192,7 +192,7 @@ class Time2Page extends StatelessWidget {
 
                           int selectedHour = newDate.hour;
                           controller.getDateAll();
-                          controller.nightMoney(selectedHour);
+                          controller.nightMoney(selectedHour,1);
                         },
                         use24hFormat: true,
                         mode: CupertinoDatePickerMode.time,

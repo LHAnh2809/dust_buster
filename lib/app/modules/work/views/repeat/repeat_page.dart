@@ -28,7 +28,6 @@ class RepeatPage extends GetView<WaitingController> {
                     itemBuilder: (BuildContext context, int index) {
                       final PendingInvoices? model =
                           state![index] as PendingInvoices?;
-
                       if (model!.repeatState == 1) {
                         return WaitingsWidget(
                           model: model,

@@ -22,6 +22,7 @@ class AppColors {
   static const Color kDarkyellowColor = Color(0xFFEE9D00);
   static const Color kWarning700Color = Color(0xFFC2410C);
   static const Color kWarning050Color = Color(0xFFFFF7ED);
+  static const Color kRrror700Color = Color(0xFFB91C1C);
   static const Color kRrror600Color = Color(0xFFDC2626);
   static const Color kRrror400Color = Color(0xFFEF4444);
   static const Color kRrror100Color = Color(0xFFFEE2E2);
@@ -36,7 +37,7 @@ class AppColors {
   static const Color kGray200Color = Color(0xFFE2E8F0);
   static const Color kGray100Color = Color(0xFFF1F5F9);
   static const Color kGray050Color = Color(0xFFF8FAFC);
-
+  static const Color kPurple050Color = Color(0xFFFBF5FF);
   const AppColors._();
 
   static const Color kPrimaryColor = Color(0xFF3E68FF);
@@ -52,6 +53,7 @@ class AppColors {
 
   static const Color black = Colors.black;
   static const Color white = Colors.white;
+  static const Color transparent = Colors.transparent;
 
   static const Color kTabarTextColor = Color(0xFFD75B5F);
   static const Color kOrangeColor = Color.fromARGB(255, 252, 109, 0);

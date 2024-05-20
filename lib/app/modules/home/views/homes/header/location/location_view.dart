@@ -1,5 +1,6 @@
 import 'package:dust_buster/app/data/models/location_models/location.dart';
 import 'package:dust_buster/app/modules/home/exports.dart';
+import 'package:dust_buster/app/modules/widgets/custom_appbar_widget.dart';
 
 import '../../../../../../routes/app_pages.dart';
 
@@ -10,24 +11,8 @@ class LocationView extends GetView<LocationController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: AppBar(
-        backgroundColor: AppColors.white,
-        centerTitle: true,
-        leading: InkWell(
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          onTap: () {
-            Get.offAllNamed(Routes.navigationBar);
-          },
-          child: Icon(
-            Ionicons.arrow_back_outline,
-            size: 24.sp,
-          ),
-        ),
-        title: Text(
-          Strings.yourAddress,
-          style: AppTextStyle.textButtonStyle.copyWith(color: AppColors.black),
-        ),
+      appBar: CustomAppbarWidget(
+        title: Strings.yourAddress,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16).r,

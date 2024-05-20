@@ -43,7 +43,7 @@ Future goDateRangePicker(
       insetPadding: EdgeInsets.symmetric(horizontal: 28.w),
       child: common.CalendarDatePicker(
         firstDate: DateTime(_now.year - 100),
-        lastDate: DateTime.now(),
+        lastDate: DateTime(_now.year + 100),
         selectedStartDate: selectedStartDate,
         selectedEndDate: selectedEndDate,
         onStartDateChanged: onStartDateChanged,
@@ -52,6 +52,28 @@ Future goDateRangePicker(
         calendarStyle: CalendarStyle(),
       ),
     ),
+  );
+}
+
+Future<void> goDateRangePickers(
+    {required DateTime selectedStartDate,
+    required DateTime selectedEndDate,
+    Function(DateTime?)? onStartDateChanged,
+    Function(DateTime?)? onEndDateChanged}) async {
+  final DateTime _now = DateTime.now();
+  return Get.dialog(
+    Dialog(
+        insetPadding: EdgeInsets.symmetric(horizontal: 28.w),
+        child: common.CalendarDatePicker(
+          firstDate: DateTime(_now.year - 100),
+          lastDate: DateTime(_now.year + 100),
+          selectedStartDate: selectedStartDate,
+          selectedEndDate: selectedEndDate,
+          onStartDateChanged: onStartDateChanged,
+          onEndDateChanged: onEndDateChanged,
+          selectionMode: SelectionMode.range,
+          calendarStyle: CalendarStyle(),
+        )),
   );
 }
 

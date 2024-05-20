@@ -3,14 +3,26 @@ import 'package:dust_buster/app/modules/home/exports.dart';
 import 'package:dust_buster/app/modules/widgets/custom_appbar_widget.dart';
 import 'package:dust_buster/app/modules/widgets/text_field_widget.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:dust_buster/app/modules/login/view/widgets/text_form_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class CleaningHoursPage extends GetView<CleaningController> {
-  const CleaningHoursPage({Key? key}) : super(key: key);
+class CleaningHoursPage extends StatelessWidget {
+  final String id;
+  final String idL;
+  final String location2;
+  final String nameSV;
+  final int lable;
+  const CleaningHoursPage(
+      {Key? key,
+      required this.id,
+      required this.idL,
+      required this.location2,
+      required this.nameSV,
+      required this.lable})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var controller = Get.put(CleaningController());
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: CustomAppbarWidget(
@@ -80,7 +92,10 @@ class CleaningHoursPage extends GetView<CleaningController> {
                       children: <Widget>[
                         LocationServiceWidget(controller: controller),
                         TimePage(controller: controller),
-                        OtherOptionsPage(controller: controller),
+                        OtherOptionsPage(
+                          controller: controller,
+                          lable: lable,
+                        ),
                         SizedBox(width: 0.0, height: 8.h),
                         Obx(() {
                           if (controller.isPet.value == true) {
@@ -98,7 +113,7 @@ class CleaningHoursPage extends GetView<CleaningController> {
                   ),
                 ),
                 Time2Page(controller: controller),
-                WorkDetails(controller: controller),
+                WorkDetails(controller: controller, lable: 1),
               ],
             ),
           ),
@@ -127,9 +142,9 @@ class CleaningHoursPage extends GetView<CleaningController> {
                           MaterialStateProperty.all(Colors.transparent),
                       indicator: const BoxDecoration(),
                       tabs: [
-                        _buildTab(0),
-                        _buildTab(1),
-                        _buildTab(2),
+                        _buildTab(controller.selectedIndex.value, 0),
+                        _buildTab(controller.selectedIndex.value, 1),
+                        _buildTab(controller.selectedIndex.value, 2),
                       ],
                     ),
                   ),
@@ -164,7 +179,7 @@ class CleaningHoursPage extends GetView<CleaningController> {
                                     if (controller.isLoading.value == false)
                                       ButtonWidget(
                                         onTap: () {
-                                          controller.posttCreateInvoice();
+                                          controller.posttCreateInvoice(lable);
                                         },
                                         text: 'Đăng việc',
                                         height: 48.h,
@@ -251,7 +266,7 @@ class CleaningHoursPage extends GetView<CleaningController> {
                                     if (controller.selectedIndex.value == 1 &&
                                         selectedHour >= 17 &&
                                         selectedHour <= 20) {
-                                      controller.nightMoney(selectedHour);
+                                      controller.nightMoney(selectedHour, 1);
                                     }
                                   });
                                 },
@@ -272,9 +287,9 @@ class CleaningHoursPage extends GetView<CleaningController> {
     );
   }
 
-  Widget _buildTab(int index) {
+  Widget _buildTab(int selectedIndex, int index) {
     return Tab(
-      child: controller.selectedIndex >= index
+      child: selectedIndex >= index
           ? Container(
               width: 123.w,
               height: 4.h,

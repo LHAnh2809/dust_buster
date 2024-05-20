@@ -67,7 +67,8 @@ class DeleteLocationWidget extends StatelessWidget {
                           controller.dellLocation(model!.id, model!.defaultt);
                         } else {
                           return Utils.showSnackbar(
-                              "Không thể xoá địa chỉ mặc định", "",AppColors.amaranth);
+                              message: "Không thể xoá địa chỉ mặc định",
+                              colors: AppColors.amaranth);
                         }
                       },
                       text: Strings.delete,

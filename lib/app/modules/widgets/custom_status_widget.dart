@@ -14,7 +14,7 @@ class CustomStatusWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 7.5).r,
+      alignment: Alignment.center,
       width: width,
       height: height,
       decoration: BoxDecoration(

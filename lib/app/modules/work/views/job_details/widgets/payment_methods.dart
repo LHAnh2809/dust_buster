@@ -5,7 +5,6 @@ import '../../../../../common/util/exports.dart';
 
 import '../../../../../data/models/pending_invoices_models/pending_invoices.dart';
 
-
 class PaymentMethods extends StatelessWidget {
   final PendingInvoices model;
   const PaymentMethods({Key? key, required this.model}) : super(key: key);
@@ -23,11 +22,30 @@ class PaymentMethods extends StatelessWidget {
             style: AppTextStyle.textbodyStyle,
           ),
           SizedBox(width: 0.0, height: 16.h),
+          if (model.label == 2)
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Tổng cộng',
+                      style: AppTextStyle.textsmallStyle,
+                    ),
+                    Text(
+                      '${Utils.formatNumber(int.parse(model.price.toString()) * int.parse(model.numberSessions.toString()))}đ',
+                      style: AppTextStyle.textbodyStyle,
+                    )
+                  ],
+                ),
+                SizedBox(width: 0.0, height: 4.h),
+              ],
+            ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Tổng cộng',
+                model.label == 2 ? 'Giá từng buổi' : 'Tổng cộng',
                 style: AppTextStyle.textsmallStyle,
               ),
               Text(
@@ -73,7 +91,51 @@ class PaymentMethods extends StatelessWidget {
                 ),
               ),
             ],
-          )
+          ),
+          if (model.label != 2)
+            if (model.orderStatus == 0)
+              Column(
+                children: [
+                  SizedBox(width: 0.0, height: 16.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Phí hủy',
+                        style: AppTextStyle.textsmallStyle
+                            .copyWith(color: AppColors.kRrror400Color),
+                      ),
+                      Text(
+                        '${Utils.formatNumber(int.parse(model.cancellationFee.toString()))} đ',
+                        style: AppTextStyle.textbodyStyle
+                            .copyWith(color: AppColors.kRrror400Color),
+                      )
+                    ],
+                  )
+                ],
+              ),
+          if (model.label == 2)
+            if (model.orderStatus == 0)
+              Column(
+                children: [
+                  SizedBox(width: 0.0, height: 16.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Phí hủy',
+                        style: AppTextStyle.textsmallStyle
+                            .copyWith(color: AppColors.kRrror400Color),
+                      ),
+                      Text(
+                        '${Utils.formatNumber(int.parse(model.price.toString()) - int.parse(model.cancellationFee.toString()))} đ',
+                        style: AppTextStyle.textbodyStyle
+                            .copyWith(color: AppColors.kRrror400Color),
+                      )
+                    ],
+                  )
+                ],
+              )
         ],
       ),
     );

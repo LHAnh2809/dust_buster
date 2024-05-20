@@ -114,6 +114,7 @@ class AppImages {
   static const String iconErrorWarningLine =
       'assets/icons/error-warning-line.svg';
   static const String iconCalendarLine = 'assets/icons/calendar-line.svg';
+  static const String iconCalendar2Line = 'assets/icons/calendar-2-line.svg';
   static const String iconTimeLine = 'assets/icons/time-line.svg';
   static const String iconInformationFill = 'assets/icons/information-fill.svg';
   static const String iconRadioButtonChecked =
@@ -146,5 +147,8 @@ class AppImages {
   static const String iconsMomo = 'assets/icons/momo.png';
   static const String iconsStarHalfFill = 'assets/icons/star-half-fill.svg';
   static const String iconsStarLine = 'assets/icons/star_line.svg';
-  static const String iconsErrorWarningFill = 'assets/icons/error-warning-fill.svg';
+  static const String iconsErrorWarningFill =
+      'assets/icons/error-warning-fill.svg';
+  static const String iconsArrowDownLine = 'assets/icons/arrow-down-s-line.svg';
+  static const String iconsSendPlaneFill = 'assets/icons/send-plane-fill.svg';
 }

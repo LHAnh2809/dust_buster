@@ -21,6 +21,7 @@ class ApiHelperImpl implements ApiHelper {
       Map<String, dynamic> jobData = jsonDecode(json);
 
       String viewValue = jobData['IP'];
+      await Storage.saveValue('ip', viewValue);
       String apiUrll = 'http://$viewValue:8000/api/v1';
       print(apiUrll);
       await Storage.saveValue('apiUrl', apiUrll);
@@ -583,6 +584,28 @@ class ApiHelperImpl implements ApiHelper {
   }
 
   @override
+  Future<Map<String, dynamic>> getPeriodically() async {
+    return await ApiErrorHandler.handleError(() async {
+      final url = '$apiUrl/get-periodically/';
+      String? accessToken = Storage.getValue<String>('access_token');
+      final response = await http
+          .get(
+            Uri.parse(url),
+            headers: getHeaders(accessToken!),
+          )
+          .timeout(myTimeout);
+
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+
+        return jsonResponse;
+      } else {
+        throw Exception('Lấy đơn hàng định kỳ thất bại');
+      }
+    });
+  }
+
+  @override
   Future<Map<String, dynamic>> postCreateInvoice(
       {required String idP,
       required int label,
@@ -603,7 +626,10 @@ class ApiHelperImpl implements ApiHelper {
       required int gPoints,
       required int paymentMethods,
       required int premiumService,
-      required int repeatState}) async {
+      required int repeatState,
+      required String duration,
+      required String numberSessions,
+      required String removalDate}) async {
     return await ApiErrorHandler.handleError(() async {
       final url = '$apiUrl/create-invoice/';
       String? accessToken = Storage.getValue<String>('access_token');
@@ -630,7 +656,10 @@ class ApiHelperImpl implements ApiHelper {
               "gPoints": gPoints,
               "paymentMethods": paymentMethods,
               "premium_service": premiumService,
-              "repeat_state": repeatState
+              "repeat_state": repeatState,
+              "duration": duration,
+              "number_sessions": numberSessions,
+              "removal_date": removalDate
             }),
             headers: getHeaders(accessToken!),
           )
@@ -806,19 +835,22 @@ class ApiHelperImpl implements ApiHelper {
   }
 
   @override
-  Future<Map<String, dynamic>> putCancelJob({
-    required int orderStatus,
-    required int Stt,
-    required int price,
-    required String idInvoiceDetails,
-  }) async {
+  Future<Map<String, dynamic>> putCancelJob(
+      {required String idU,
+      required int Stt,
+      required int price,
+      required String idInvoiceDetails,
+      required String reasonCancellation}) async {
     return await ApiErrorHandler.handleError(() async {
+      String? accessToken = Storage.getValue<String>('access_token');
       final url =
-          '$apiUrl/put-cancel-job/?order_status=$orderStatus&stt=$Stt&price=$price&idInvoiceDetails=$idInvoiceDetails';
-      final response = await http.put(
-        Uri.parse(url),
-        headers: {'Content-Type': 'application/json'},
-      ).timeout(myTimeout);
+          '$apiUrl/put-cancel-job/?idU=$idU&reason_cancellation=$reasonCancellation&stt=$Stt&price=$price&idInvoiceDetails=$idInvoiceDetails';
+      final response = await http
+          .put(
+            Uri.parse(url),
+            headers: getHeaders(accessToken!),
+          )
+          .timeout(myTimeout);
 
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
@@ -913,6 +945,49 @@ class ApiHelperImpl implements ApiHelper {
         return jsonResponse;
       } else {
         throw Exception('Đánh giá thất bại');
+      }
+    });
+  }
+
+  @override
+  Future<Map<String, dynamic>> getWorkCompleted({required String id}) async {
+    return await ApiErrorHandler.handleError(() async {
+      final url = '$apiUrl/get-work-completed?id=$id';
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+      ).timeout(myTimeout);
+
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+
+        return jsonResponse;
+      } else {
+        throw Exception('Lấy dữ liệu thất bại');
+      }
+    });
+  }
+
+  @override
+  Future<Map<String, dynamic>> postPeriodicallyCanneled(
+      {required int stt, required String idI, required int money}) async {
+    return await ApiErrorHandler.handleError(() async {
+      final url =
+          '$apiUrl/post-periodically-canneled/?stt=$stt&idI=$idI&money=$money';
+      String? accessToken = Storage.getValue<String>('access_token');
+      final response = await http
+          .post(
+            Uri.parse(url),
+            headers: getHeaders(accessToken!),
+          )
+          .timeout(myTimeout);
+
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+
+        return jsonResponse;
+      } else {
+        throw Exception('Lấy dữ liệu thất bại');
       }
     });
   }

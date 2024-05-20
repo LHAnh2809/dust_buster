@@ -390,6 +390,7 @@ class Utils {
     if (label == 1) {
       return "Dọn dẹp nhà theo giờ";
     } else if (label == 2) {
+      return "Dọn dẹp nhà định kỳ";
     } else if (label == 3) {
     } else if (label == 4) {
     } else if (label == 5) {
@@ -440,14 +441,27 @@ class Utils {
     }
   }
 
-  static void showSnackbar(
+  static void showSnackbar({
     String? message,
+    String? messageBT,
     String? icon,
     Color? colors,
-  ) {
+    bool? showButton = false,
+    void Function()? onPressed,
+  }) {
     closeSnackbar();
 
     Get.rawSnackbar(
+        mainButton: showButton == true
+            ? TextButton(
+                onPressed: onPressed,
+                child: Text(
+                  messageBT!,
+                  style: AppTextStyle.textbodyStyle
+                      .copyWith(color: AppColors.kYellowColor),
+                ),
+              )
+            : null,
         icon: icon != null
             ? SvgPicture.asset(
                 icon,
@@ -470,10 +484,10 @@ class Utils {
             offset: const Offset(0, 4),
           ),
         ],
-        backgroundColor: AppColors.white,
+        backgroundColor: AppColors.kGray1000Color.withOpacity(0.7),
         messageText: Text(
           message!,
-          style: AppTextStyle.textsmallStyle,
+          style: AppTextStyle.textsmallStyle.copyWith(color: AppColors.white),
         ),
         snackPosition: SnackPosition.BOTTOM,
         margin: const EdgeInsets.only(left: 16, right: 16, bottom: 50).r,
@@ -682,5 +696,66 @@ class Utils {
       }
     }
     return number.toString();
+  }
+
+  static String getDayLabel(int index) {
+    switch (index + 1) {
+      case DateTime.monday:
+        return 'T2';
+      case DateTime.tuesday:
+        return 'T3';
+      case DateTime.wednesday:
+        return 'T4';
+      case DateTime.thursday:
+        return 'T5';
+      case DateTime.friday:
+        return 'T6';
+      case DateTime.saturday:
+        return 'T7';
+      case DateTime.sunday:
+        return 'CN';
+      default:
+        return '';
+    }
+  }
+
+  static String formatVietnameseDate(DateTime date) {
+    final formattedDate = DateFormat('MMMM y', 'vi').format(date);
+    final List<String> vietnameseMonths = [
+      'tháng một',
+      'tháng hai',
+      'tháng ba',
+      'tháng tư',
+      'tháng năm',
+      'tháng sáu',
+      'tháng bảy',
+      'tháng tám',
+      'tháng chín',
+      'tháng mười',
+      'tháng mười một',
+      'tháng mười hai'
+    ];
+    final monthIndex = date.month - 1;
+    final vietnameseMonth = vietnameseMonths[monthIndex];
+    final capitalizedMonth =
+        vietnameseMonth[0].toUpperCase() + vietnameseMonth.substring(1);
+    return capitalizedMonth + ' ' + formattedDate.split(' ')[2];
+  }
+
+  static int countDaysInWeekdays(DateTime startDate, int numberOfMonths,
+      List<int> weekdays, int countRemove) {
+    DateTime endDate = startDate.add(Duration(days: numberOfMonths * 30));
+    int count = 0;
+    // Duyệt qua mỗi ngày trong khoảng thời gian
+    for (var date = startDate.add(Duration(days: 1));
+        date.isBefore(endDate) || date.isAtSameMomentAs(endDate);
+        date = date.add(Duration(days: 1))) {
+      // Kiểm tra xem ngày đó có thuộc vào danh sách các thứ không
+      if (weekdays.contains(date.weekday)) {
+        count++;
+      }
+    }
+    count -= countRemove;
+    return count;
   }
 }

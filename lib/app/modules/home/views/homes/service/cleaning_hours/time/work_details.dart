@@ -5,9 +5,14 @@ import 'package:dust_buster/app/modules/widgets/custom_svg.dart';
 import 'package:dust_buster/app/modules/work/views/widgets/job_details_widget.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../../../controllers/wallet_controller.dart';
+import '../../../wallet/recharge/recharge_page.dart';
+
 class WorkDetails extends StatelessWidget {
   final CleaningController controller;
-  const WorkDetails({Key? key, required this.controller}) : super(key: key);
+  final int lable;
+  const WorkDetails({Key? key, required this.controller, required this.lable})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +25,6 @@ class WorkDetails extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
-              // height: 144.h,
               padding: const EdgeInsets.all(16).r,
               decoration: const BoxDecoration(
                 color: AppColors.white,
@@ -237,9 +241,7 @@ class WorkDetails extends StatelessWidget {
                           widget: Container(
                             height: 24.h,
                             width: 67.w,
-                            padding: const EdgeInsets.symmetric(
-                                    vertical: 4, horizontal: 7)
-                                .r,
+                            alignment: Alignment.center,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16).r,
                               border:
@@ -293,10 +295,23 @@ class WorkDetails extends StatelessWidget {
                   ),
                   SizedBox(width: 0.0, height: 16.h),
                   JobDetailsWidget(
+                    // image: AppImages.iconCalendar2Line,
                     image: AppImages.iconDate,
                     color: AppColors.kGray400Color,
-                    text: controller.selectedDate.toString(),
+                    text: controller.workingTime(lable),
                   ),
+                  if (lable == 2)
+                    Column(
+                      children: [
+                        SizedBox(width: 0.0, height: 12.h),
+                        JobDetailsWidget(
+                          image: AppImages.iconCalendar2Line,
+                          text: controller
+                              .workingTime2(controller.textRepeat.value),
+                          color: AppColors.kGray400Color,
+                        ),
+                      ],
+                    ),
                   SizedBox(width: 0.0, height: 12.h),
                   JobDetailsWidget(
                     image: AppImages.iconTime,
@@ -314,6 +329,17 @@ class WorkDetails extends StatelessWidget {
                         ),
                       ],
                     ),
+                  if (lable == 2)
+                    Column(
+                      children: [
+                        SizedBox(width: 0.0, height: 12.h),
+                        JobDetailsWidget(
+                          image: AppImages.iconRepeat,
+                          color: AppColors.kGray400Color,
+                          text: '${controller.totalNumberSessions.value} buổi',
+                        ),
+                      ],
+                    )
                 ],
               ),
             ),
@@ -448,6 +474,27 @@ class WorkDetails extends StatelessWidget {
                         )
                       ],
                     ),
+                    if (lable == 2)
+                      Column(
+                        children: [
+                          SizedBox(height: 8.h),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Giá trên một buổi',
+                                style: AppTextStyle.textsmallStyle
+                                    .copyWith(color: AppColors.kGray1000Color),
+                              ),
+                              Text(
+                                '${Utils.formatNumber(int.parse(controller.totalAmount.toString()) ~/ int.parse(controller.totalNumberSessions.toString()))} đ',
+                                style: AppTextStyle.textbodyStyle
+                                    .copyWith(color: AppColors.kGray1000Color),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
                     SizedBox(height: 8.h),
                     if (controller.isPromotions.value == true &&
                         controller.textlabelKM.value == 1)
@@ -568,8 +615,11 @@ class WorkDetails extends StatelessWidget {
                                       } else {
                                         Get.back();
                                         return Utils.showSnackbar(
-                                            'Ví 3CleanPay của bạn không đủ số dư vui lòng thanh toán bằng tiền mặt',
-                                            '',AppColors.amaranth);
+                                          message:
+                                              'Ví 3CleanPay của bạn không đủ số dư vui lòng thanh toán bằng tiền mặt',
+                                          icon: AppImages.iconCloseCircleFill,
+                                          colors: AppColors.amaranth,
+                                        );
                                       }
                                     } else {
                                       controller.selectPaymentMethod(method);

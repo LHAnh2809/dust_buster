@@ -144,14 +144,30 @@ class WaitingsWidget extends StatelessWidget {
                     image: AppImages.iconTime,
                     text: model!.workTime.toString(),
                   ),
-                  if (model!.repeat.toString() != "")
+                  if (model!.repeatState == 1)
                     Column(
                       children: [
                         SizedBox(width: 0.0, height: 12.h),
                         JobDetailsWidget(
                           image: AppImages.iconRepeat,
-                          text: model!.repeat.toString(),
+                          text: "${model!.repeat}",
                         ),
+                        if (model!.duration != null)
+                          Column(
+                            children: [
+                              SizedBox(width: 0.0, height: 12.h),
+                              JobDetailsWidget(
+                                image: AppImages.iconCalendar2Line,
+                                text: "${model!.duration} ",
+                                color: AppColors.kGray400Color,
+                              ),
+                              SizedBox(width: 0.0, height: 12.h),
+                              JobDetailsWidget(
+                                image: AppImages.iconRepeat,
+                                text: "${model!.numberSessions} buổi",
+                              ),
+                            ],
+                          ),
                       ],
                     ),
                   SizedBox(width: 0.0, height: 12.h),
@@ -196,99 +212,106 @@ class WaitingsWidget extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              color: AppColors.kGray100Color,
-              height: 1.h,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16).r,
-              child: Column(
+            if (model!.idPT != "")
+              Column(
                 children: [
-                  if (model!.idPT != "")
-                    Row(
+                  Container(
+                    color: AppColors.kGray100Color,
+                    height: 1.h,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16).r,
+                    child: Column(
                       children: [
-                        CircleAvatar(
-                          radius: 10.r,
-                          backgroundImage:
-                              NetworkImage(model!.imagePT.toString()),
-                        ),
-                        SizedBox(width: 12.w, height: 0.0),
-                        Text(
-                          model!.namePT.toString(),
-                          style: AppTextStyle.textbodyStyle,
-                        )
-                      ],
-                    ),
-                  if (model!.orderStatus == 5)
-                    Column(
-                      children: [
-                        SizedBox(width: 0.0, height: 12.h),
-                        const JobDetailsWidget(
-                          image: AppImages.iconErrorWarning,
-                          text: 'Bạn chưa đánh giá đối tác',
-                          color: AppColors.kGray400Color,
-                        ),
-                      ],
-                    ),
-                  if (model!.partner![0].idP == null && model!.idPT == "")
-                    JobDetailsWidget(
-                      image: AppImages.iconAvtUser,
-                      text: 'Đang chờ người nhận việc...',
-                      textStyle: AppTextStyle.textbodyStyle.copyWith(
-                        color: AppColors.kPurplePurpleColor,
-                      ),
-                    ),
-                  if (model!.partner![0].idP != null)
-                    Container(
-                      width: 311.w,
-                      padding: const EdgeInsets.symmetric(horizontal: 5).r,
-                      child: Row(
-                        children: [
-                          for (int i = 0;
-                              i < model!.partner!.length && i < 3;
-                              i++)
-                            if (model!.partner![i].imageP != null)
-                              Align(
-                                widthFactor: 0.5,
-                                child: CircleAvatar(
-                                  radius: 14.r,
-                                  backgroundColor: AppColors.white,
-                                  child: CircleAvatar(
-                                    radius: 10.r,
-                                    backgroundImage: NetworkImage(
-                                        model!.partner![i].imageP.toString()),
-                                  ),
-                                ),
+                        if (model!.idPT != "")
+                          Row(
+                            children: [
+                              CircleAvatar(
+                                radius: 10.r,
+                                backgroundImage:
+                                    NetworkImage(model!.imagePT.toString()),
                               ),
-                          SizedBox(width: 20.w, height: 0.0),
-                          Expanded(
-                            flex: 2,
-                            child: Wrap(
-                              alignment: WrapAlignment.start,
+                              SizedBox(width: 12.w, height: 0.0),
+                              Text(
+                                model!.namePT.toString(),
+                                style: AppTextStyle.textbodyStyle,
+                              )
+                            ],
+                          ),
+                        if (model!.orderStatus == 5)
+                          Column(
+                            children: [
+                              SizedBox(width: 0.0, height: 12.h),
+                              const JobDetailsWidget(
+                                image: AppImages.iconErrorWarning,
+                                text: 'Bạn chưa đánh giá đối tác',
+                                color: AppColors.kGray400Color,
+                              ),
+                            ],
+                          ),
+                        if (model!.partner![0].idP == null && model!.idPT == "")
+                          JobDetailsWidget(
+                            image: AppImages.iconAvtUser,
+                            text: 'Đang chờ người nhận việc...',
+                            textStyle: AppTextStyle.textbodyStyle.copyWith(
+                              color: AppColors.kPurplePurpleColor,
+                            ),
+                          ),
+                        if (model!.partner![0].idP != null)
+                          Container(
+                            width: 311.w,
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 5).r,
+                            child: Row(
                               children: [
                                 for (int i = 0;
                                     i < model!.partner!.length && i < 3;
                                     i++)
-                                  if (model!.partner![i].nameP != null)
-                                    Text(
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      // ignore: prefer_interpolation_to_compose_strings
-                                      '${model!.partner![i].nameP}' +
-                                          (i == model!.partner!.length - 1
-                                              ? ''
-                                              : ', '),
-                                      style: AppTextStyle.textbodyStyle,
+                                  if (model!.partner![i].imageP != null)
+                                    Align(
+                                      widthFactor: 0.5,
+                                      child: CircleAvatar(
+                                        radius: 14.r,
+                                        backgroundColor: AppColors.white,
+                                        child: CircleAvatar(
+                                          radius: 10.r,
+                                          backgroundImage: NetworkImage(model!
+                                              .partner![i].imageP
+                                              .toString()),
+                                        ),
+                                      ),
                                     ),
+                                SizedBox(width: 20.w, height: 0.0),
+                                Expanded(
+                                  flex: 2,
+                                  child: Wrap(
+                                    alignment: WrapAlignment.start,
+                                    children: [
+                                      for (int i = 0;
+                                          i < model!.partner!.length && i < 3;
+                                          i++)
+                                        if (model!.partner![i].nameP != null)
+                                          Text(
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            // ignore: prefer_interpolation_to_compose_strings
+                                            '${model!.partner![i].nameP}' +
+                                                (i == model!.partner!.length - 1
+                                                    ? ''
+                                                    : ', '),
+                                            style: AppTextStyle.textbodyStyle,
+                                          ),
+                                    ],
+                                  ),
+                                )
                               ],
                             ),
-                          )
-                        ],
-                      ),
+                          ),
+                      ],
                     ),
+                  ),
                 ],
               ),
-            ),
           ],
         ),
       ),

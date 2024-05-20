@@ -8,7 +8,8 @@ import '../premium/premium_page.dart';
 
 class OtherOptionsPage extends StatelessWidget {
   final CleaningController controller;
-  const OtherOptionsPage({Key? key, required this.controller})
+  final int lable;
+  const OtherOptionsPage({Key? key, required this.controller,required this.lable})
       : super(key: key);
 
   @override
@@ -63,7 +64,7 @@ class OtherOptionsPage extends StatelessWidget {
                   value: controller.isPremiumService.value.obs,
                   onToggle: (bool value) {
                     controller.isPremiumService.value = value;
-                    controller.updatePrimium();
+                    controller.updatePrimium(lable);
                   },
                 ),
               ),

@@ -2,7 +2,6 @@ import 'package:dust_buster/app/modules/home/bindings/wallet_binding.dart';
 import 'package:dust_buster/app/modules/home/views/homes/wallet/wallet_page.dart';
 import '../modules/create_account/exports.dart';
 import '../modules/forgot_password/exports.dart';
-import '../modules/home/bindings/cleaning_binding.dart';
 import '../modules/home/exports.dart';
 import '../modules/login/exports.dart';
 import '../modules/navigation_bar/exports.dart';
@@ -55,12 +54,6 @@ class AppPages {
       transition: Transition.rightToLeftWithFade,
       page: () => const FindLocationView(),
       binding: FindLocationBinding(),
-    ),
-    GetPage(
-      name: _Paths.cleaningHouer,
-      transition: Transition.rightToLeftWithFade,
-      page: () => const CleaningHoursPage(),
-      binding: CleaningBinding(),
     ),
     GetPage(
       name: _Paths.promotionDetails,

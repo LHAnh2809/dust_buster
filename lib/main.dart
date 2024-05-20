@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'app/common/util/exports.dart';
 import 'app/common/util/initializer.dart';
 import 'app/data/repository/api_helper_impl.dart';
@@ -18,7 +19,9 @@ void main() {
     await ApiHelperImpl().fetchDataFromFirestore();
     WidgetsFlutterBinding.ensureInitialized();
     await NotificationService.initializeNotification();
-    runApp(const MyApp());
+    initializeDateFormatting('vi', null).then((_) {
+      runApp(const MyApp());
+    });
   });
 }
 

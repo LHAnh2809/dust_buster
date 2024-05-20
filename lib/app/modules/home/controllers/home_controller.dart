@@ -5,6 +5,7 @@ import 'package:dust_buster/app/data/repository/api_helper.dart';
 import 'package:dust_buster/app/routes/app_pages.dart';
 import 'package:geolocator/geolocator.dart';
 import '../exports.dart';
+import '../views/homes/service/clean_house_periodically/clean_house_periodically_view.dart';
 
 class HomeController extends GetxController with StateMixin<HomeModel> {
   final ApiHelper _apiHelper = Get.find();
@@ -137,13 +138,21 @@ class HomeController extends GetxController with StateMixin<HomeModel> {
 
   void navigateToNextScreen(label, id, idL, location2, nameSV) {
     if (label == 1) {
-      Get.toNamed(Routes.cleaningHouer, arguments: {
-        "id": id,
-        "idL": idL,
-        "location2": location2,
-        "nameSV": nameSV
-      });
+      Get.to(() => CleaningHoursPage(
+            id: id,
+            idL: idL,
+            location2: location2,
+            nameSV: nameSV,
+            lable: label,
+          ));
     } else if (label == 2) {
+      Get.to(() => CleanHousePeriodicallyView(
+            id: id,
+            idL: idL,
+            location2: location2,
+            nameSV: nameSV,
+            lable: label,
+          ));
     } else if (label == 3) {
     } else if (label == 4) {
     } else if (label == 5) {

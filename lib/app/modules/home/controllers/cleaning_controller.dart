@@ -25,12 +25,26 @@ class CleaningController extends GetxController
   late HomeController homeController;
   late NavigationBarController navigationBarController;
 
+  final markedDays = RxList<int>();
+
+  final removeDays = RxList<DateTime>();
+
+  final List<Map<String, dynamic>> numbersmonthlyPackage = [
+    {'value': 1},
+    {'value': 2},
+    {'value': 3},
+    {'value': 6}
+  ].obs;
+  var totalNumberSessions = 0.obs;
   DateTime now = DateTime.now();
   var dateTime = DateTime.now().add(const Duration(hours: 1)).obs;
   late RxString selectedDate =
       'Hôm nay, ${DateFormat('dd/MM/yyyy').format(now)}'.obs;
+
   var selectedTimeOption = 0.obs;
+  var selectedPackageType = 0.obs;
   var selectedIndex = 0.obs;
+  var selectedIndexPeriodicCleaning = 0.obs;
   var selectedLocation = 0.obs;
   var selectedPromotions = Rx<int?>(null).obs;
   var isFavoriteMaker = true.obs;
@@ -77,14 +91,30 @@ class CleaningController extends GetxController
   var textlabelKM = 0.obs;
   var textPremiumService = 0.obs;
   var textlabelSV = 0.obs;
+
+  var packageType = 1.obs;
+
+  var priceMD2 = 0.obs;
+  var textpriceMD2 = 0.obs;
+  var timeMD2 = 0.obs;
+  var textWorkingTime = "".obs;
+
+  var textDuration = "".obs;
+
   void tabControllerIndex(index) {
     selectedIndex.value = index;
+    tabController.animateTo(index);
+  }
+
+  void tabControllerIndexPeriodicCleaning(index) {
+    selectedIndexPeriodicCleaning.value = index;
     tabController.animateTo(index);
   }
 
   @override
   void onInit() {
     tabController = TabController(length: 3, vsync: this);
+    tabControllerPeriodicCleaning = TabController(length: 2, vsync: this);
     locationController = Get.put(LocationController());
     homeController = Get.put(HomeController());
     navigationBarController = Get.put(NavigationBarController());
@@ -98,13 +128,88 @@ class CleaningController extends GetxController
     super.onInit();
   }
 
-  posttCreateInvoice() async {
+  String calculateFutureDate() {
+    // Thêm số ngày vào ngày hiện tại
+    DateTime futureDate = now.add(Duration(days: packageType.value * 30));
+
+    // Format ngày và thứ
+    String formattedNow = DateFormat('dd/MM/yyyy').format(now);
+    String formattedFutureDate = DateFormat('dd/MM/yyyy').format(futureDate);
+    return "Từ ngày $formattedNow đến Ngày $formattedFutureDate";
+  }
+
+  String workingTime2(String thu) {
+    String temp = "";
+    DateTime futureDate = now.add(Duration(days: packageType.value * 30));
+
+    // Format ngày và thứ
+    String formattedNow = DateFormat('dd/MM/yyyy').format(now);
+    String formattedFutureDate = DateFormat('dd/MM/yyyy').format(futureDate);
+    temp = "$formattedNow - $formattedFutureDate";
+    textDuration.value = temp;
+    return temp;
+  }
+
+  String workingTime(int lable) {
+    String temp = "";
+    switch (lable) {
+      case 1: // Case 1
+        temp = selectedDate.toString();
+        break;
+      case 2: // Case 2
+
+        String tempTT = textRepeat.value.split(', ')[0];
+        int tempT;
+        if (tempTT == "Thứ 2") {
+          tempT = 1;
+        } else if (tempTT == "Thứ 3") {
+          tempT = 2;
+        } else if (tempTT == "Thứ 4") {
+          tempT = 3;
+        } else if (tempTT == "Thứ 5") {
+          tempT = 4;
+        } else if (tempTT == "Thứ 6") {
+          tempT = 5;
+        } else if (tempTT == "Thứ 7") {
+          tempT = 6;
+        } else {
+          tempT = 7;
+        }
+
+        int currentDayOfWeek = now.weekday;
+
+        // Tính toán khoảng cách giữa ngày hiện tại và ngày mục tiêu
+        int difference = tempT - currentDayOfWeek;
+
+        if (difference <= 0) {
+          difference +=
+              7; // Nếu ngày mục tiêu đã trôi qua, ta cần tới ngày trong tuần tiếp theo
+        }
+
+        // Tính toán ngày gần nhất của ngày mục tiêu
+        DateTime nearestDate = now.add(Duration(days: difference));
+        String formattedNearestDate =
+            DateFormat('dd/MM/yyyy').format(nearestDate);
+        selectedDate.value = "$tempTT, $formattedNearestDate";
+        temp = selectedDate.value;
+        break;
+      // Add more cases as needed
+      default: // Default case
+        // Handle default case here
+        break;
+    }
+
+    return temp;
+  }
+
+  void posttCreateInvoice(lable) async {
     isLoading.value = true;
     try {
       int paymentMethod = 1;
       int pet = 1;
       int repeat = 1;
       int premiumService = 1;
+      int price = 0;
       if (selectedPaymentMethod != "Tiền mặt") {
         paymentMethod = 2;
       }
@@ -120,11 +225,16 @@ class CleaningController extends GetxController
       }
       String formattedDate =
           Utils.replaceTodayWithDayOfWeek(selectedDate.toString());
+      if (lable == 1) {
+        price = finalMoney.toInt();
+      } else if (lable == 2) {
+        price = finalMoney.toInt() ~/ totalNumberSessions.value;
+      }
       // ignore: unnecessary_brace_in_string_interps
       String roomArea = '${textAcreage} m2 / ${textRoomNumber} phòng';
       final response = await _apiHelper.postCreateInvoice(
         idP: textIdPromotions.toString(),
-        label: 1,
+        label: lable,
         nameUser: textName.toString(),
         phoneNumber: textPhoneNumber.toString(),
         location: textLocation.toString(),
@@ -137,12 +247,15 @@ class CleaningController extends GetxController
         workingDay: formattedDate,
         workTime: textTimeAll.toString(),
         roomArea: roomArea,
-        price: finalMoney.toInt(),
+        price: price,
         gPoints: textPoint.toInt(),
         paymentMethods: paymentMethod,
         repeatState: repeat,
         premiumService: premiumService,
-        note: Utils.getLabel(1),
+        note: Utils.getLabel(lable),
+        duration: textDuration.value,
+        numberSessions: totalNumberSessions.value.toString(),
+        removalDate: removeDays.toString(),
       );
       isLoading.value = false;
 
@@ -238,6 +351,7 @@ class CleaningController extends GetxController
     String formattedTime = DateFormat.Hm().format(nextTime);
     textTimeAll.value =
         '${textTimeRequest.value} giờ, $formattednewDate đến $formattedTime';
+    print(textTimeAll.value);
   }
 
   void selectFirstDayOption(int index) {
@@ -298,41 +412,113 @@ class CleaningController extends GetxController
     });
   }
 
-  void nightMoney(int selectedHour) {
+  void nightMoney(int selectedHour, int lable) {
     textTime.value = selectedHour;
-    if (selectedHour >= 17 && selectedHour <= 20) {
-      totalAmount.value = textRoomCharge.value + textMoneyPremium.value + 30000;
-      finalMoney.value = totalAmount.value;
-      originalAmount.value = totalAmount.value;
-    } else {
-      totalAmount.value = textRoomCharge.value + textMoneyPremium.value + 0;
-      finalMoney.value = totalAmount.value;
-      originalAmount.value = totalAmount.value;
+
+    switch (lable) {
+      case 1: // Case 1
+        if (selectedHour >= 17 && selectedHour <= 20) {
+          totalAmount.value =
+              textRoomCharge.value + textMoneyPremium.value + 30000;
+        } else {
+          totalAmount.value = textRoomCharge.value + 0;
+        }
+        break;
+      case 2: // Case 2
+        if (selectedHour >= 17 && selectedHour <= 20) {
+          totalAmount.value = totalNumberSessions.value != 0
+              ? (textRoomCharge.value + textMoneyPremium.value + 30000) *
+                  totalNumberSessions.value
+              : textRoomCharge.value + textMoneyPremium.value + 30000;
+          priceMD2.value = timeMD2.value + textMoneyPremium.value + 30000;
+        } else {
+          totalAmount.value = totalNumberSessions.value != 0
+              ? (textRoomCharge.value + textMoneyPremium.value + 0) *
+                  totalNumberSessions.value
+              : textRoomCharge.value + textMoneyPremium.value + 0;
+          priceMD2.value = timeMD2.value + 0;
+        }
+        break;
+      // Add more cases as needed
+      default: // Default case
+        // Handle default case here
+        break;
     }
+
+    finalMoney.value = totalAmount.value;
+    originalAmount.value = totalAmount.value;
   }
 
-  void updatePrimium() {
+  void updatePrimium(int lable) {
+    print(lable);
     int premiumAmount = isPremiumService.value ? 50000 : 0;
     textMoneyPremium.value = 0;
-    if (textTime.value >= 17 && textTime.value <= 20) {
-      totalAmount.value =
-          textRoomCharge.value + textMoneyPremium.value + premiumAmount + 30000;
-      textMoneyPremium.value = premiumAmount;
-      finalMoney.value = totalAmount.value;
-      originalAmount.value = totalAmount.value;
-    } else {
-      totalAmount.value =
-          textRoomCharge.value + textMoneyPremium.value + premiumAmount;
-      textMoneyPremium.value = premiumAmount;
-      finalMoney.value = totalAmount.value;
-      originalAmount.value = totalAmount.value;
+    switch (lable) {
+      case 1: // Case 1
+        if (textTime.value >= 17 && textTime.value <= 20) {
+          totalAmount.value = textRoomCharge.value +
+              textMoneyPremium.value +
+              premiumAmount +
+              30000;
+          textMoneyPremium.value = premiumAmount;
+        } else {
+          totalAmount.value =
+              textRoomCharge.value + textMoneyPremium.value + premiumAmount;
+          textMoneyPremium.value = premiumAmount;
+        }
+        break;
+      case 2: // Case 2
+        if (textTime.value >= 17 && textTime.value <= 20) {
+          totalAmount.value = totalNumberSessions.value != 0
+              ? (textRoomCharge.value +
+                      textMoneyPremium.value +
+                      premiumAmount +
+                      30000) *
+                  totalNumberSessions.value
+              : textRoomCharge.value +
+                  textMoneyPremium.value +
+                  premiumAmount +
+                  30000;
+          textMoneyPremium.value = premiumAmount;
+          priceMD2.value = timeMD2.value + premiumAmount + 30000;
+        } else {
+          totalAmount.value = totalNumberSessions.value != 0
+              ? (textRoomCharge.value +
+                      textMoneyPremium.value +
+                      premiumAmount) *
+                  totalNumberSessions.value
+              : textRoomCharge.value + textMoneyPremium.value + premiumAmount;
+          textMoneyPremium.value = premiumAmount;
+          priceMD2.value = timeMD2.value + premiumAmount + 0;
+        }
+        break;
+      // Add more cases as needed
+      default: // Default case
+        // Handle default case here
+        break;
     }
+
+    finalMoney.value = totalAmount.value;
+    originalAmount.value = totalAmount.value;
+  }
+
+  void preSession() {
+    if (markedDays.isEmpty) {
+      updatePrimium(2);
+      nightMoney(textTime.value, 2);
+    } else {
+      totalAmount.value = priceMD2.value * totalNumberSessions.value;
+    }
+
+    finalMoney.value = totalAmount.value;
+    originalAmount.value = totalAmount.value;
   }
 
   var selectedPaymentMethod = 'Tiền mặt'.obs;
   List<String> paymentMethods = ['Ví 3CleanPay', 'Tiền mặt'];
 
   late TabController tabController;
+  late TabController tabControllerPeriodicCleaning;
 
   void selectPaymentMethod(String method) {
     selectedPaymentMethod.value = method;
@@ -381,6 +567,8 @@ class CleaningController extends GetxController
         totalAmount.value = listServiceDuration[0].money!;
         finalMoney.value = totalAmount.value;
         originalAmount.value = totalAmount.value;
+        priceMD2.value = totalAmount.value;
+        timeMD2.value = listServiceDuration[0].money!;
       }
     } catch (e) {
       print(e.toString());
@@ -390,11 +578,16 @@ class CleaningController extends GetxController
   @override
   void onClose() {
     tabController.dispose();
+    tabControllerPeriodicCleaning.dispose();
     super.onClose();
   }
 
   void selectTab(int index) {
     selectedIndex.value = index;
+  }
+
+  void selectTabsPeriodicCleaning(int index) {
+    selectedIndexPeriodicCleaning.value = index;
   }
 
   void selectLocation(int option) {
@@ -425,12 +618,20 @@ class CleaningController extends GetxController
     selectedTimeOption.value = option;
   }
 
+  void selectPackageType(int option) {
+    selectedPackageType.value = option;
+  }
+
   void selectdDateIndex(int option) {
     selectedDateIndex.value = option;
   }
 
   void onTabIndexChanged(int index) {
     tabController.animateTo(index);
+  }
+
+  void onTabIndexChangedPeriodicCleaning(int index) {
+    tabControllerPeriodicCleaning.animateTo(index);
   }
 
   List<String> generateWeekDates() {
@@ -449,5 +650,20 @@ class CleaningController extends GetxController
     return weekDates;
   }
 
-  void getLocationn() {}
+  // Phương thức để thêm hoặc loại bỏ một ngày khỏi danh sách các ngày cần ẩn
+  void toggleRemoveDay(DateTime day) {
+    if (removeDays.contains(day)) {
+      removeDays.remove(day); // Loại bỏ nếu đã có trong danh sách
+    } else {
+      removeDays.add(day); // Thêm vào danh sách nếu chưa có
+    }
+  }
+
+  void togglemarkedDays(int day) {
+    if (markedDays.contains(day)) {
+      markedDays.remove(day);
+    } else {
+      markedDays.add(day);
+    }
+  }
 }
