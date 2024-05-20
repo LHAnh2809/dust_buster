@@ -3,6 +3,7 @@ import 'package:dust_buster/app/modules/notification/views/calendar/calendar_pag
 import 'package:dust_buster/app/modules/notification/views/widgets/notification_widget.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../home/exports.dart';
+import 'messager/messager_page.dart';
 
 class NotificationView extends GetView<NotificationController> {
   const NotificationView({Key? key}) : super(key: key);
@@ -71,15 +72,7 @@ class NotificationView extends GetView<NotificationController> {
               controller: controller.tabController,
               physics: const NeverScrollableScrollPhysics(),
               children: const [
-                NotificationWidget(
-                  label: 0,
-                  title: 'Ngô Vũ Thủy Tiên',
-                  content: 'Công việc đã hoàn thành chị nhé',
-                  image: AppImages.iconAvtTest,
-                  time: '',
-                  idIVD: '',
-                  id: '',
-                ),
+                MessagerPage(),
                 CalendarPage(),
                 NotificationWidget(
                   label: 2,
