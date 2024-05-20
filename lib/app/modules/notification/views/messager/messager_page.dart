@@ -41,7 +41,9 @@ class _MessagerPageState extends State<MessagerPage> {
               itemBuilder: (BuildContext context, int index) {
                 final PhongChat? model = state![index] as PhongChat?;
 
-                return MessagerWidget(model: model!);
+                return model!.tinNhanCuoiCung != ""
+                    ? MessagerWidget(model: model)
+                    : const SizedBox.shrink();
               },
               separatorBuilder: (context, index) =>
                   SizedBox(width: 0.0, height: 8.h),
