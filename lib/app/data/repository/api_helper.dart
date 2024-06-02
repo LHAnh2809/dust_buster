@@ -138,4 +138,12 @@ abstract class ApiHelper {
       required String idID,
       required int star,
       required String note});
+  Future<Map<String, dynamic>> postCreateChat({
+    required String id,
+  });
+
+  Future<Map<String, dynamic>> getChat({
+    required String id,
+  });
+  Future<Map<String, dynamic>> getPhongChat();
 }

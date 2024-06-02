@@ -18,6 +18,50 @@ class Utils {
     return hourPart;
   }
 
+  static String formatTimeAgos(String time) {
+    try {
+      // Define the input format
+      final inputFormat = DateFormat('dd/MM/yyyy HH:mm:ss');
+      // Parse the input string to DateTime
+      DateTime dateTime = inputFormat.parse(time);
+
+      final now = DateTime.now();
+      final difference = now.difference(dateTime);
+
+      if (difference.inSeconds < 60) {
+        return '${difference.inSeconds} giây trước';
+      } else if (difference.inMinutes < 60) {
+        return '${difference.inMinutes} phút trước';
+      } else if (difference.inHours < 24) {
+        return '${difference.inHours} giờ trước';
+      } else if (difference.inDays < 5) {
+        return '${difference.inDays} ngày trước';
+      } else {
+        // Format the DateTime object for display
+        final outputFormat = DateFormat('dd/MM/yyyy HH:mm');
+        return outputFormat.format(dateTime);
+      }
+    } catch (e) {
+      print('Error parsing date: $e');
+      return 'Invalid date';
+    }
+  }
+
+  static String formattedTime(String time) {
+    DateTime messageTime = DateFormat("dd/MM/yyyy HH:mm:ss").parse(time);
+    DateTime now = DateTime.now();
+    DateFormat timeFormat = DateFormat("HH:mm");
+    DateFormat dateFormat = DateFormat("HH:mm dd/MM");
+
+    if (messageTime.day == now.day &&
+        messageTime.month == now.month &&
+        messageTime.year == now.year) {
+      return timeFormat.format(messageTime);
+    } else {
+      return dateFormat.format(messageTime);
+    }
+  }
+
   static void makePhoneCall(String phoneNumber) async {
     String telScheme = 'tel:$phoneNumber';
     if (await canLaunch(telScheme)) {

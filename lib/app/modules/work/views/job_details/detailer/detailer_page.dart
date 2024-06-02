@@ -183,9 +183,19 @@ class DetailerPage extends GetView<WaitingController> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      model.user![index].nameU.toString(),
-                                      style: AppTextStyle.lableBodyStyle,
+                                    Row(
+                                      children: [
+                                        Text(
+                                          model.user![index].nameU.toString(),
+                                          style: AppTextStyle.lableBodyStyle,
+                                        ),
+                                        SizedBox(width: 5.w, height: 0.0),
+                                        Utils.widgetStar(
+                                          context,
+                                          double.parse(model.user![index].star
+                                              .toString()),
+                                        ),
+                                      ],
                                     ),
                                     SizedBox(width: 4.w, height: 0.0),
                                     Text(
@@ -211,7 +221,7 @@ class DetailerPage extends GetView<WaitingController> {
                     separatorBuilder: (context, index) => SizedBox(
                       height: 8.h,
                     ),
-                    itemCount: 1,
+                    itemCount: model.user!.length,
                   ),
                 ),
               if (model.user!.isEmpty) const Center(child: CustomEmptyWidget()),

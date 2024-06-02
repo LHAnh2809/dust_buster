@@ -149,12 +149,25 @@ class JobAcceptanceStatus extends StatelessWidget {
                     children: [
                       ButtonCircleWidge(
                         onTap: () {
-                          Get.to(() => ChatView(
-                                name: name.toString(),
-                                image: image.toString(),
-                                id: id.toString(),
-                                numberPhone: phonenumberPT.toString(),
-                              ));
+                          controller
+                              .postCreateChatt(id.toString())
+                              .then((value) => Get.to(
+                                    () => controller.idPC == ""
+                                        ? const SizedBox.shrink()
+                                        : ChatView(
+                                            idPC: controller.idPC,
+                                            name: name.toString(),
+                                            image: image.toString(),
+                                            id: id.toString(),
+                                            numberPhone:
+                                                phonenumberPT.toString(),
+                                            oneStar: oneStar,
+                                            twoStar: twoStar,
+                                            threeStar: threeStar,
+                                            fourStar: fourStar,
+                                            fiveStar: fiveStar,
+                                          ),
+                                  ));
                         },
                         images: AppImages.iconNote,
                       ),
