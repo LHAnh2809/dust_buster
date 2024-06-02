@@ -15,8 +15,8 @@ class ServiceView extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16.0),
       child: Wrap(
-        spacing: 24.w, 
-        runSpacing: 16.h, 
+        spacing: 24.w,
+        runSpacing: 16.h,
         children: List.generate(
           8,
           (index) {
@@ -62,6 +62,13 @@ class ServiceView extends StatelessWidget {
                           textAlign: TextAlign.center,
                           service.name.toString(),
                           style: AppTextStyle.textsmallStyle10),
+                      Text(
+                        textAlign: TextAlign.center,
+                        service.status == 1 ? "" : "(Bảo trì)",
+                        style: AppTextStyle.textsmallStyle10.copyWith(
+                            fontStyle: FontStyle.italic,
+                            color: AppColors.kTabarTextColor),
+                      ),
                     ],
                   ),
                 ),

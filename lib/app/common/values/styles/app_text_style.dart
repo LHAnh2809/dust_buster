@@ -108,6 +108,12 @@ class AppTextStyle {
       fontWeight: FontWeight.w600,
       fontSize: Dimens.fontSize10,
       fontFamily: "SFProText");
+      static TextStyle textsmallStyle8 = TextStyle(
+      color: AppColors.kGray1000Color,
+      fontWeight: FontWeight.w600,
+      fontSize: Dimens.fontSize8,
+      fontFamily: "SFProText");
+
   static TextStyle textsmallStyle60016 = TextStyle(
       color: AppColors.kGray1000Color,
       fontWeight: FontWeight.w400,

@@ -1,12 +1,14 @@
 import 'package:dust_buster/app/common/util/navigator.dart';
 import 'package:dust_buster/app/data/models/pending_invoices_models/pending_invoices.dart';
 import 'package:dust_buster/app/modules/login/exports.dart';
+import 'package:dust_buster/app/modules/widgets/custom_svg.dart';
 import 'package:dust_buster/app/modules/work/exports.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../../../home/exports.dart';
 import '../../../widgets/custom_appbar_widget.dart';
 import '../../../widgets/text_field_widget.dart';
+import '../by_package/job_details/danh_gia/danh_gia_page.dart';
 import '../widgets/cancel_job_widget.dart';
 
 class JobDetailsPage extends GetView<WaitingController> {
@@ -67,63 +69,8 @@ class JobDetailsPage extends GetView<WaitingController> {
                   if (controller.orderStatuss == 5)
                     ButtonWidget(
                       onTap: () {
-                        goPresent(isDismissibles: true, children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Đánh giá',
-                                style: AppTextStyle.textButtonStyle
-                                    .copyWith(color: AppColors.kGray1000Color),
-                              ),
-                              ButtonWidget(
-                                onTap: () {
-                                  controller.noiDungdanhgia.clear();
-                                  Get.back();
-                                },
-                                widget: SvgPicture.asset(
-                                  AppImages.iconClose,
-                                  width: 24.w,
-                                  height: 24.h,
-                                ),
-                                boder: false.obs,
-                              )
-                            ],
-                          ),
-                          SizedBox(width: 0.0, height: 32.h),
-                          RatingBar.builder(
-                            initialRating: 0,
-                            minRating: 1,
-                            direction: Axis.horizontal,
-                            allowHalfRating: false,
-                            itemCount: 5,
-                            itemPadding:
-                                const EdgeInsets.symmetric(horizontal: 4.0).r,
-                            itemBuilder: (context, _) => const Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                            ),
-                            onRatingUpdate: (rating) {
-                              controller.soSao.value = rating.toInt();
-                            },
-                          ),
-                          SizedBox(width: 0.0, height: 10.h),
-                          TextFieldWidget(
-                            obsNhapText: false,
-                            hintText: 'Nội dung đánh giá',
-                            controller: controller.noiDungdanhgia,
-                            onChanged: (value) {},
-                          ),
-                          SizedBox(width: 0.0, height: 16.h),
-                          ButtonWidget(
-                            onTap: () {
-                              controller.postDanhgia(
-                                  model.idPT.toString(), model.idID.toString());
-                            },
-                            text: 'Gửi đánh giá',
-                            boder: false.obs,
-                          ),
-                        ]);
+                        Get.to(() =>
+                            DanhGiaPage(model: model, controller: controller));
                       },
                       text: 'Đánh giá',
                     ),

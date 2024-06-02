@@ -90,6 +90,13 @@ class SeviceAllButon extends StatelessWidget {
                           fontSize: 9.sp,
                         ),
                       ),
+                      Text(
+                        textAlign: TextAlign.center,
+                        model!.service![index].status == 1 ? "" : "(Bảo trì)",
+                        style: AppTextStyle.textsmallStyle10.copyWith(
+                            fontStyle: FontStyle.italic,
+                            color: AppColors.kTabarTextColor),
+                      ),
                     ],
                   ),
                 ),
