@@ -1,9 +1,7 @@
-
 import 'user.dart';
 
 class PartnerInformation {
   String? idP;
-  String? idE;
   String? nameP;
   String? imageP;
   int? oneStar;
@@ -15,7 +13,6 @@ class PartnerInformation {
 
   PartnerInformation(
       {this.idP,
-      this.idE,
       this.nameP,
       this.imageP,
       this.oneStar,
@@ -27,7 +24,6 @@ class PartnerInformation {
 
   PartnerInformation.fromJson(Map<String, dynamic> json) {
     idP = json['idP'];
-    idE = json['idE'];
     nameP = json['nameP'];
     imageP = json['imageP'];
     oneStar = json['oneStar'];
@@ -46,7 +42,6 @@ class PartnerInformation {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['idP'] = this.idP;
-    data['idE'] = this.idE;
     data['nameP'] = this.nameP;
     data['imageP'] = this.imageP;
     data['oneStar'] = this.oneStar;
@@ -60,3 +55,4 @@ class PartnerInformation {
     return data;
   }
 }
+

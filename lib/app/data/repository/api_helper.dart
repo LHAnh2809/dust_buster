@@ -1,3 +1,5 @@
+import 'dart:io';
+
 abstract class ApiHelper {
   Future<Map<String, dynamic>> portLogin(
       {required String email, required String password});
@@ -132,12 +134,14 @@ abstract class ApiHelper {
   });
 
   Future<Map<String, dynamic>> getHistory();
+  Future<Map<String, dynamic>> postDanhGia({
+    required String idP,
+    required String idID,
+    required int star,
+    required String note,
+    required List<File> files,
+  });
 
-  Future<Map<String, dynamic>> postDanhGia(
-      {required String idP,
-      required String idID,
-      required int star,
-      required String note});
   Future<Map<String, dynamic>> postCreateChat({
     required String id,
   });
@@ -146,4 +150,12 @@ abstract class ApiHelper {
     required String id,
   });
   Future<Map<String, dynamic>> getPhongChat();
+  Future<Map<String, dynamic>> putInvoiceDettail({
+    required String id,
+    required int price,
+    required int premiumService,
+    required String workingDay,
+    required String roomArea,
+    required String workTime,
+  });
 }

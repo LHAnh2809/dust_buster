@@ -1,3 +1,4 @@
+import 'package:dust_buster/app/modules/account/view/user/user_page.dart';
 import 'package:dust_buster/app/modules/account/view/widgets/button_endow_widget.dart';
 import 'package:dust_buster/app/modules/home/exports.dart';
 import '../exports.dart';
@@ -24,7 +25,9 @@ class AccountView extends GetView<AccountController> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             ButtonAvartarWidget(
-              onTap: () {},
+              onTap: () {
+                Get.to(() => const UserPage());
+              },
             ),
             Padding(
               padding: const EdgeInsets.only(left: 16, right: 16, bottom: 24).r,

@@ -162,7 +162,8 @@ class Utils {
   }
 
   static widgetStar(BuildContext context, double star) {
-    if (star == 0.5) {
+    print(star);
+    if (star >= 0.5 && star < 1.0) {
       return _svgStar(
         AppImages.iconsStarHalfFill,
         AppImages.iconsStarLine,
@@ -170,7 +171,7 @@ class Utils {
         AppImages.iconsStarLine,
         AppImages.iconsStarLine,
       );
-    } else if (star == 1.0) {
+    } else if (star >= 1.0 && star < 1.5) {
       return _svgStar(
         AppImages.iconsStarFill,
         AppImages.iconsStarLine,
@@ -178,7 +179,7 @@ class Utils {
         AppImages.iconsStarLine,
         AppImages.iconsStarLine,
       );
-    } else if (star == 1.5) {
+    } else if (star >= 1.5 && star < 2.0) {
       return _svgStar(
         AppImages.iconsStarFill,
         AppImages.iconsStarHalfFill,
@@ -186,7 +187,7 @@ class Utils {
         AppImages.iconsStarLine,
         AppImages.iconsStarLine,
       );
-    } else if (star == 2.0) {
+    } else if (star >= 2.0 && star < 2.5) {
       return _svgStar(
         AppImages.iconsStarFill,
         AppImages.iconsStarFill,
@@ -194,7 +195,7 @@ class Utils {
         AppImages.iconsStarLine,
         AppImages.iconsStarLine,
       );
-    } else if (star == 2.5) {
+    } else if (star >= 2.5 && star < 3.0) {
       return _svgStar(
         AppImages.iconsStarFill,
         AppImages.iconsStarFill,
@@ -202,7 +203,7 @@ class Utils {
         AppImages.iconsStarLine,
         AppImages.iconsStarLine,
       );
-    } else if (star == 3.0) {
+    } else if (star >= 3.0 && star < 3.5) {
       return _svgStar(
         AppImages.iconsStarFill,
         AppImages.iconsStarFill,
@@ -210,7 +211,7 @@ class Utils {
         AppImages.iconsStarLine,
         AppImages.iconsStarLine,
       );
-    } else if (star == 3.5) {
+    } else if (star >= 3.5 && star < 4.0) {
       return _svgStar(
         AppImages.iconsStarFill,
         AppImages.iconsStarFill,
@@ -218,7 +219,7 @@ class Utils {
         AppImages.iconsStarHalfFill,
         AppImages.iconsStarLine,
       );
-    } else if (star == 4.0) {
+    } else if (star >= 4.0 && star < 4.5) {
       return _svgStar(
         AppImages.iconsStarFill,
         AppImages.iconsStarFill,
@@ -226,7 +227,7 @@ class Utils {
         AppImages.iconsStarFill,
         AppImages.iconsStarLine,
       );
-    } else if (star == 4.5) {
+    } else if (star >= 4.5 && star < 5.0) {
       return _svgStar(
         AppImages.iconsStarFill,
         AppImages.iconsStarFill,

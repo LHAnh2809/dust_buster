@@ -152,7 +152,7 @@ class WaitingsWidget extends StatelessWidget {
                           image: AppImages.iconRepeat,
                           text: "${model!.repeat}",
                         ),
-                        if (model!.duration != null)
+                        if (model!.duration != null && model!.duration != "")
                           Column(
                             children: [
                               SizedBox(width: 0.0, height: 12.h),

@@ -1,7 +1,9 @@
 import 'package:dust_buster/app/modules/home/exports.dart';
 
+import '../../../../widgets/custom_appbar_widget.dart';
 import '../../../../widgets/custom_empty_widget.dart';
 import '../../../exports.dart';
+import 'load_anh.dart';
 
 class DetailerPage extends GetView<WaitingController> {
   const DetailerPage({Key? key}) : super(key: key);
@@ -9,7 +11,6 @@ class DetailerPage extends GetView<WaitingController> {
   @override
   Widget build(BuildContext context) {
     final model = controller.partnerInformationList[0];
-    print(model.user);
     final star = Utils.averageRating(
         int.parse(model.oneStar.toString()),
         int.parse(model.twoStar.toString()),
@@ -18,119 +19,108 @@ class DetailerPage extends GetView<WaitingController> {
         int.parse(model.fiveStar.toString()));
     return Scaffold(
       backgroundColor: AppColors.kGray050Color,
-      appBar: AppBar(
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        backgroundColor: AppColors.white,
-        leading: InkWell(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            onTap: () {
-              Get.back();
-            },
-            child: Icon(
-              Icons.arrow_back_ios_outlined,
-              size: 19.sp,
-            )),
-        title: Center(
-          child: Text(
-            'Thông tin người làm',
-            style:
-                AppTextStyle.textButtonStyle.copyWith(color: AppColors.black),
-          ),
-        ),
+      appBar: CustomAppbarWidget(
+        title: 'Thông tin người làm',
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16).r,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: 375.w,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 90.w,
-                      height: 90.h,
-                      child: Stack(
-                        children: [
-                          Container(
-                            width: 80.w,
-                            height: 80.h,
-                            decoration: BoxDecoration(
-                              color: AppColors.kGray200Color,
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: NetworkImage(model.imageP.toString()),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            top: 50.h,
-                            left: 50.w,
-                            child: Container(
-                              width: 32.w,
-                              height: 32.h,
-                              padding: const EdgeInsets.all(1).r,
-                              decoration: BoxDecoration(
-                                  color: AppColors.white,
-                                  shape: BoxShape.circle,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: const Color(0x0a000000)
-                                          .withOpacity(0.06),
-                                      offset: const Offset(0, 2),
-                                      blurRadius: 4.r,
-                                      spreadRadius: -1.r,
-                                    ),
-                                    BoxShadow(
-                                      color: const Color(0x0a000000)
-                                          .withOpacity(0.1),
-                                      offset: const Offset(0, 4),
-                                      blurRadius: 6.r,
-                                      spreadRadius: -1.r,
-                                    ),
-                                  ]),
-                              child: SvgPicture.asset(
-                                AppImages.iconsShieldStarFill,
-                                fit: BoxFit.cover,
-                                color: AppColors.kSuccess600Color,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Text(
-                      model.nameP.toString(),
-                      style: AppTextStyle.largeBodyStyle,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
+      body: Padding(
+        padding: const EdgeInsets.all(16).r,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: 375.w,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 90.w,
+                    height: 90.h,
+                    child: Stack(
                       children: [
-                        Utils.widgetStar(context, star),
-                        SizedBox(width: 4.w, height: 0.0),
-                        Text(star.toString(),
-                            style: AppTextStyle.lableBodyStyle),
+                        Container(
+                          width: 80.w,
+                          height: 80.h,
+                          decoration: BoxDecoration(
+                            color: AppColors.kGray200Color,
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(model.imageP.toString()),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 50.h,
+                          left: 50.w,
+                          child: Container(
+                            width: 32.w,
+                            height: 32.h,
+                            padding: const EdgeInsets.all(1).r,
+                            decoration: BoxDecoration(
+                                color: AppColors.white,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: const Color(0x0a000000)
+                                        .withOpacity(0.06),
+                                    offset: const Offset(0, 2),
+                                    blurRadius: 4.r,
+                                    spreadRadius: -1.r,
+                                  ),
+                                  BoxShadow(
+                                    color: const Color(0x0a000000)
+                                        .withOpacity(0.1),
+                                    offset: const Offset(0, 4),
+                                    blurRadius: 6.r,
+                                    spreadRadius: -1.r,
+                                  ),
+                                ]),
+                            child: SvgPicture.asset(
+                              AppImages.iconsShieldStarFill,
+                              fit: BoxFit.cover,
+                              color: AppColors.kSuccess600Color,
+                            ),
+                          ),
+                        ),
                       ],
-                    )
-                  ],
-                ),
+                    ),
+                  ),
+                  Text(
+                    model.nameP.toString(),
+                    style: AppTextStyle.largeBodyStyle,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Utils.widgetStar(context, star),
+                      SizedBox(width: 4.w, height: 0.0),
+                      Text(star.toString(), style: AppTextStyle.lableBodyStyle),
+                    ],
+                  )
+                ],
               ),
-              SizedBox(width: 0.0, height: 32.h),
-              Text('Nhận xét', style: AppTextStyle.lableBodyStyle),
-              SizedBox(width: 0.0, height: 16.h),
-              if (model.user!.isNotEmpty)
-                SizedBox(
+            ),
+            SizedBox(width: 0.0, height: 32.h),
+            Text('Nhận xét', style: AppTextStyle.lableBodyStyle),
+            SizedBox(width: 0.0, height: 16.h),
+            if (model.user!.isNotEmpty)
+              Flexible(
+                child: SizedBox(
                   width: 343.w,
                   child: ListView.separated(
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
+                      List<String> imageList = [];
+
+                      if (model.user![index].image != null) {
+                        imageList =
+                            model.user![index].image!.toString().split(',');
+                        String? apiUrl = Storage.getValue<String>('apiUrl');
+                        print("$apiUrl/get-image/?image_path=${imageList[0]}");
+                      }
+
                       return Container(
                         width: 343.w,
                         padding: const EdgeInsets.all(12).r,
@@ -209,6 +199,43 @@ class DetailerPage extends GetView<WaitingController> {
                                 )
                               ],
                             ),
+                            if (model.user![index].image != null)
+                              Column(
+                                children: [
+                                  SizedBox(width: 0.0, height: 10.h),
+                                  SizedBox(
+                                    height: 70.h,
+                                    child: GridView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: imageList.length,
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 4,
+                                        crossAxisSpacing: 16,
+                                        mainAxisSpacing: 16,
+                                      ),
+                                      itemBuilder: (context, index) {
+                                        // Item mặc định cho nút chọn ảnh
+                                        String? apiUrl =
+                                            Storage.getValue<String>('apiUrl');
+                                        return ButtonWidget(
+                                          onTap: () {
+                                            Get.to(() => LoadAnh(
+                                                  imageList: imageList,selectedImageIndex: index,
+                                                ));
+                                          },
+                                          widget: Image.network(
+                                            "$apiUrl/get-image/?image_path=${imageList[index]}",
+                                            width: 100.w,
+                                            height: 100.h,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
                             SizedBox(width: 0.0, height: 10.h),
                             Text(
                               model.user![index].content.toString(),
@@ -224,9 +251,9 @@ class DetailerPage extends GetView<WaitingController> {
                     itemCount: model.user!.length,
                   ),
                 ),
-              if (model.user!.isEmpty) const Center(child: CustomEmptyWidget()),
-            ],
-          ),
+              ),
+            if (model.user!.isEmpty) const Center(child: CustomEmptyWidget()),
+          ],
         ),
       ),
     );

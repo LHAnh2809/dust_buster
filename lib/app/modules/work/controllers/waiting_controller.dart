@@ -10,6 +10,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import '../../../common/util/navigator.dart';
 import '../../../data/models/periodic_models/Periodic.dart';
 import '../views/job_details/detailer/detailer_page.dart';
+import 'package:image_picker/image_picker.dart';
 
 class WaitingController extends GetxController
     with StateMixin<List<PendingInvoices>> {
@@ -22,14 +23,9 @@ class WaitingController extends GetxController
   var hasRepeatStateOne = false.obs;
   var isLoading = false.obs;
 
-  var soSao = 0.obs;
-
-  var noiDungdanhgia = TextEditingController();
-
   @override
   void onInit() {
     getPendingInvoicee();
-
     super.onInit();
   }
 
@@ -79,37 +75,6 @@ class WaitingController extends GetxController
         print('Error parsing date/time: $e');
       }
     });
-  }
-
-  void postDanhgia(String idP, String idID) async {
-    try {
-      if (soSao.value == 0) {
-        return Utils.showSnackbar(
-            message: 'Vui lòng chọn số sao',
-            icon: AppImages.iconCircleCheck,
-            colors: AppColors.kRrror400Color);
-      }
-      if (noiDungdanhgia.text.isEmpty) {
-        return Utils.showSnackbar(
-            message: 'Vui lòng điền nội dung đánh giá',
-            icon: AppImages.iconCircleCheck,
-            colors: AppColors.kRrror400Color);
-      }
-      final response = await _apiHelper.postDanhGia(
-          idP: idP, idID: idID, star: soSao.value, note: noiDungdanhgia.text);
-      if (response['detail'] == 0) {
-        getHistoryy();
-        noiDungdanhgia.clear();
-        Get.back();
-        Get.back();
-        return Utils.showSnackbar(
-            message: 'Đánh giá thành công',
-            icon: AppImages.iconCircleCheck,
-            colors: AppColors.kSuccess600Color);
-      }
-    } catch (e) {
-      debugPrint('Error in getPendingInvoicee: $e');
-    }
   }
 
   void putAcceptJobb(String idParther, String idInvoiceDetails) async {
@@ -189,23 +154,20 @@ class WaitingController extends GetxController
     }
   }
 
+  
   Future<void> gettPartnerInformation(String id) async {
     try {
       isLoading.value = true;
       final response = await _apiHelper.getPartnerInformation(id: id);
       if (response['status'] == "OK") {
         if (response['partner_information'] != null) {
-          final List<PartnerInformation> partnerInformation =
-              (response['partner_information'] as List)
-                  .map((json) => PartnerInformation.fromJson(json))
-                  .toList();
-
-          if (partnerInformation.isNotEmpty) {
-            partnerInformationList = partnerInformation;
-            Get.to(() => const DetailerPage());
-            isLoading.value = false;
-            return;
-          }
+          final PartnerInformation partnerInformation =
+              PartnerInformation.fromJson(response['partner_information']);
+          
+          partnerInformationList = [partnerInformation];
+          Get.to(() => const DetailerPage());
+          isLoading.value = false;
+          return;
         }
       }
     } catch (e) {

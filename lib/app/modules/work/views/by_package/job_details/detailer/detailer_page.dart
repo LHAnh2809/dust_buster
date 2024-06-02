@@ -1,4 +1,5 @@
 import 'package:dust_buster/app/modules/home/exports.dart';
+import 'package:dust_buster/app/modules/widgets/custom_appbar_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../widgets/custom_empty_widget.dart';
@@ -19,27 +20,9 @@ class DetailerPage extends GetView<WaitingController> {
         int.parse(model.fiveStar.toString()));
     return Scaffold(
       backgroundColor: AppColors.kGray050Color,
-      appBar: AppBar(
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        backgroundColor: AppColors.white,
-        leading: InkWell(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            onTap: () {
-              Get.back();
-            },
-            child: Icon(
-              Icons.arrow_back_ios_outlined,
-              size: 19.sp,
-            )),
-        title: Center(
-          child: Text(
-            'Thông tin người làm',
-            style:
-                AppTextStyle.textButtonStyle.copyWith(color: AppColors.black),
-          ),
-        ),
+      appBar: CustomAppbarWidget(
+        title: 'Thông tin người làm',
+
       ),
       body: SingleChildScrollView(
         child: Padding(

@@ -170,7 +170,8 @@ class Time2Page extends StatelessWidget {
                     SizedBox(
                       height: 212.h,
                       child: CupertinoDatePicker(
-                        minimumDate: controller.minimumDate,
+                        minimumDate: DateTime(DateTime.now().year,
+                            DateTime.now().month, DateTime.now().day, 7),
                         maximumDate: DateTime(DateTime.now().year,
                             DateTime.now().month, DateTime.now().day, 20),
                         backgroundColor: AppColors.white,
@@ -179,20 +180,19 @@ class Time2Page extends StatelessWidget {
                             : DateTime(DateTime.now().year,
                                 DateTime.now().month, DateTime.now().day, 7),
                         onDateTimeChanged: (DateTime newDate) {
-                          if (controller.dateTime.value.hour < 7) {
+                          if (newDate.hour < 7) {
                             controller.dateTime.value = DateTime(
-                                DateTime.now().year,
-                                DateTime.now().month,
-                                DateTime.now().day,
-                                7);
-                            print(controller.dateTime.value);
+                                newDate.year, newDate.month, newDate.day, 7);
+                          } else if (newDate.hour >= 20) {
+                            controller.dateTime.value = DateTime(newDate.year,
+                                newDate.month, newDate.day, 19, 59);
                           } else {
                             controller.dateTime.value = newDate;
                           }
 
                           int selectedHour = newDate.hour;
                           controller.getDateAll();
-                          controller.nightMoney(selectedHour,1);
+                          controller.nightMoney(selectedHour, 1);
                         },
                         use24hFormat: true,
                         mode: CupertinoDatePickerMode.time,

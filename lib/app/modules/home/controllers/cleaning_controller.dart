@@ -421,7 +421,7 @@ class CleaningController extends GetxController
           totalAmount.value =
               textRoomCharge.value + textMoneyPremium.value + 30000;
         } else {
-          totalAmount.value = textRoomCharge.value + 0;
+          totalAmount.value = textRoomCharge.value + textMoneyPremium.value + 0;
         }
         break;
       case 2: // Case 2

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dust_buster/app/common/constants.dart';
 import 'package:dust_buster/app/common/storage/storage.dart';
@@ -919,26 +921,33 @@ class ApiHelperImpl implements ApiHelper {
   }
 
   @override
-  Future<Map<String, dynamic>> postDanhGia(
-      {required String idP,
-      required String idID,
-      required int star,
-      required String note}) {
+  Future<Map<String, dynamic>> postDanhGia({
+    required String idP,
+    required String idID,
+    required int star,
+    required String note,
+    required List<File> files,
+  }) {
     return ApiErrorHandler.handleError(() async {
-      final url = '$apiUrl/post-danhgia/';
+      final url =
+          '$apiUrl/post-danhgia/?idP=$idP&sao=$star&note=$note&idID=$idID';
       String? accessToken = Storage.getValue<String>('access_token');
-      final response = await http
-          .post(
-            Uri.parse(url),
-            body: jsonEncode({
-              "idP": idP,
-              "idID": idID,
-              "sao": star,
-              "note": note,
-            }),
-            headers: getHeaders(accessToken!),
-          )
-          .timeout(myTimeout);
+
+      final multipartRequest = http.MultipartRequest('POST', Uri.parse(url));
+
+      // Thêm các file vào multipart request
+      for (int i = 0; i < files.length; i++) {
+        multipartRequest.files.add(await http.MultipartFile.fromPath(
+          'files',
+          files[i].path,
+        ));
+      }
+
+      // Thêm header authorization nếu cần
+      multipartRequest.headers['Authorization'] = 'Bearer $accessToken';
+
+      final streamedResponse = await multipartRequest.send();
+      final response = await http.Response.fromStream(streamedResponse);
 
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
@@ -1060,6 +1069,34 @@ class ApiHelperImpl implements ApiHelper {
         return jsonResponse;
       } else {
         throw Exception('Lấy dữ liệu thất bại');
+      }
+    });
+  }
+
+  @override
+  Future<Map<String, dynamic>> putInvoiceDettail({
+    required String id,
+    required int price,
+    required int premiumService,
+    required String workingDay,
+    required String roomArea,
+    required String workTime,
+  }) async {
+    return await ApiErrorHandler.handleError(() async {
+      final url =
+          '$apiUrl/put-invoice-detail?id=$id&price=$price&premiumService=$premiumService&workingDay=$workingDay&roomArea=$roomArea&workTime=$workTime';
+      final response = await http
+          .put(
+            Uri.parse(url),
+          )
+          .timeout(myTimeout);
+
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+
+        return jsonResponse;
+      } else {
+        throw Exception('Sửa dịch vụ thất bạt');
       }
     });
   }

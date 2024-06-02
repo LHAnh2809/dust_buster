@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:dust_buster/app/modules/widgets/custom_appbar_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -432,61 +433,123 @@ class CleanHousePeriodicallyView extends StatelessWidget {
                                 ],
                               ),
                               Obx(
-                                () => controller.textRepeat.value != ""
-                                    ? ButtonWidget(
-                                        onTap: () {
-                                          showDialogConfirm(
-                                            child: Center(
-                                              child: LoadingAnimationWidget
-                                                  .discreteCircle(
-                                                color: AppColors.white,
-                                                size: 50.r,
-                                              ),
+                                () => ButtonWidget(
+                                  onTap: () {
+                                    goPresent(children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Chọn giờ làm',
+                                            style: AppTextStyle.textButtonStyle
+                                                .copyWith(
+                                                    color: AppColors
+                                                        .kGray1000Color),
+                                          ),
+                                          ButtonWidget(
+                                            onTap: () {
+                                              Get.back();
+                                            },
+                                            widget: SvgPicture.asset(
+                                              AppImages.iconClose,
+                                              width: 24.w,
+                                              height: 24.h,
                                             ),
-                                          );
-                                          Future.delayed(
-                                              const Duration(seconds: 2), () {
-                                            Get.back();
-                                            final int nextTabIndex = (controller
-                                                        .selectedIndexPeriodicCleaning
-                                                        .value +
-                                                    1) %
-                                                3;
-                                            controller
-                                                .selectTabsPeriodicCleaning(
-                                                    nextTabIndex);
-                                            controller
-                                                .onTabIndexChangedPeriodicCleaning(
-                                                    nextTabIndex);
-                                            int selectedHour =
-                                                controller.dateTime.value.hour;
-                                            Get.focusScope!.unfocus();
-                                            if (controller
-                                                        .selectedIndexPeriodicCleaning
-                                                        .value ==
-                                                    0 &&
-                                                selectedHour >= 17 &&
-                                                selectedHour <= 20) {
-                                              controller.nightMoney(
-                                                  selectedHour, 2);
-                                            }
-                                          });
-                                        },
-                                        text: 'Tiếp tục',
-                                        width: 120.w,
-                                        height: 48.h,
-                                        colorBackGroud: AppColors.kButtonColor,
-                                      )
-                                    : ButtonWidget(
-                                        onTap: () {},
-                                        text: 'Tiếp tục',
-                                        width: 120.w,
-                                        height: 48.h,
-                                        textStyle: AppTextStyle.textButtonStyle
-                                            .copyWith(
-                                                color: AppColors.kGray400Color),
-                                        colorBackGroud: AppColors.kGray200Color,
+                                            boder: false.obs,
+                                          )
+                                        ],
                                       ),
+                                      SizedBox(width: 0.0, height: 16.h),
+                                      SizedBox(
+                                        height: 212.h,
+                                        child: CupertinoDatePicker(
+                                          minimumDate: DateTime(
+                                              DateTime.now().year,
+                                              DateTime.now().month,
+                                              DateTime.now().day,
+                                              7),
+                                          maximumDate: DateTime(
+                                              DateTime.now().year,
+                                              DateTime.now().month,
+                                              DateTime.now().day,
+                                              20),
+                                          backgroundColor: AppColors.white,
+                                          initialDateTime:
+                                              controller.dateTime.value.hour < 7
+                                                  ? DateTime.now().add(
+                                                      const Duration(hours: 1))
+                                                  : DateTime(
+                                                      DateTime.now().year,
+                                                      DateTime.now().month,
+                                                      DateTime.now().day,
+                                                      7),
+                                          onDateTimeChanged:
+                                              (DateTime newDate) {
+                                            if (newDate.hour < 7) {
+                                              controller.dateTime.value =
+                                                  DateTime(
+                                                      newDate.year,
+                                                      newDate.month,
+                                                      newDate.day,
+                                                      7);
+                                            } else if (newDate.hour >= 20) {
+                                              controller.dateTime.value =
+                                                  DateTime(
+                                                      newDate.year,
+                                                      newDate.month,
+                                                      newDate.day,
+                                                      19,
+                                                      59);
+                                            } else {
+                                              controller.dateTime.value =
+                                                  newDate;
+                                            }
+
+                                            int selectedHour = newDate.hour;
+                                            controller.getDateAll();
+                                            controller.nightMoney(
+                                                selectedHour, 2);
+                                          },
+                                          use24hFormat: true,
+                                          mode: CupertinoDatePickerMode.time,
+                                        ),
+                                      ),
+                                      SizedBox(width: 0.0, height: 16.h),
+                                    ]);
+                                  },
+                                  widget: Container(
+                                    height: 48.h,
+                                    padding: const EdgeInsets.all(12).r,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.kGrayBackgroudColor,
+                                      borderRadius: BorderRadius.circular(8).r,
+                                      border: Border.all(
+                                          width: 1.w,
+                                          color: AppColors.kGray200Color),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          '${controller.dateTime.value.hour.toString().padLeft(2, '0')}:${controller.dateTime.value.minute.toString().padLeft(2, '0')}',
+                                          style: AppTextStyle
+                                              .textsmallStyle60016
+                                              .copyWith(
+                                                  color:
+                                                      AppColors.kGray900Color),
+                                        ),
+                                        SvgPicture.asset(
+                                          AppImages.iconTimeLine,
+                                          width: 24.w,
+                                          height: 24.h,
+                                          color: AppColors.kGray400Color,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ),
                             ],
                           ),

@@ -1,4 +1,6 @@
 import 'package:dust_buster/app/modules/widgets/custom_svg.dart';
+import 'package:dust_buster/app/modules/work/views/by_package/job_details/danh_gia/danh_gia_page.dart';
+import 'package:dust_buster/app/modules/work/views/by_package/job_details/thay_yeu_cau/thay_yeu_cau.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -75,63 +77,11 @@ class JobDetailsPage extends GetView<WaitingController> {
                 if (controller.orderStatuss == 5)
                   ButtonWidget(
                     onTap: () {
-                      goPresent(isDismissibles: true, children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Đánh giá',
-                              style: AppTextStyle.textButtonStyle
-                                  .copyWith(color: AppColors.kGray1000Color),
-                            ),
-                            ButtonWidget(
-                              onTap: () {
-                                controller.noiDungdanhgia.clear();
-                                Get.back();
-                              },
-                              widget: SvgPicture.asset(
-                                AppImages.iconClose,
-                                width: 24.w,
-                                height: 24.h,
-                              ),
-                              boder: false.obs,
-                            )
-                          ],
-                        ),
-                        SizedBox(width: 0.0, height: 32.h),
-                        RatingBar.builder(
-                          initialRating: 0,
-                          minRating: 1,
-                          direction: Axis.horizontal,
-                          allowHalfRating: false,
-                          itemCount: 5,
-                          itemPadding:
-                              const EdgeInsets.symmetric(horizontal: 4.0).r,
-                          itemBuilder: (context, _) => const Icon(
-                            Icons.star,
-                            color: Colors.amber,
-                          ),
-                          onRatingUpdate: (rating) {
-                            controller.soSao.value = rating.toInt();
-                          },
-                        ),
-                        SizedBox(width: 0.0, height: 10.h),
-                        TextFieldWidget(
-                          obsNhapText: false,
-                          hintText: 'Nội dung đánh giá',
-                          controller: controller.noiDungdanhgia,
-                          onChanged: (value) {},
-                        ),
-                        SizedBox(width: 0.0, height: 16.h),
-                        ButtonWidget(
-                          onTap: () {
-                            controller.postDanhgia(
-                                model.idPT.toString(), model.idID.toString());
-                          },
-                          text: 'Gửi đánh giá',
-                          boder: false.obs,
-                        ),
-                      ]);
+                      Get.to(() => DanhGiaPage(
+                            controller: controller,
+                            idPT: model.idPT.toString(),
+                            idID: model.idPT.toString(),
+                          ));
                     },
                     text: 'Đánh giá',
                   ),
@@ -148,7 +98,18 @@ class JobDetailsPage extends GetView<WaitingController> {
                   Column(
                     children: [
                       ButtonWidget(
-                        onTap: () {},
+                        onTap: () {
+                          Get.to(() => ThayYeuCau(
+                                lable: int.parse(model.label.toString()),
+                                premium:
+                                    int.parse(model.premiumService.toString()),
+                                wordTime: model.workTime.toString(),
+                                wordDay: model.workingDay.toString(),
+                                money: int.parse(model.price.toString()),
+                                label: int.parse(model.label.toString()),
+                                id: model.idID!,
+                              ));
+                        },
                         text: 'Thay đổi yêu cầu',
                         colorBackGroud: AppColors.white,
                         boder: true.obs,

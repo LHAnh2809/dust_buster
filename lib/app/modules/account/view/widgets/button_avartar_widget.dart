@@ -12,7 +12,7 @@ class ButtonAvartarWidget extends StatelessWidget {
         padding:
             const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 24).r,
         child: ButtonWidget(
-          onTap: () {},
+          onTap: onTap,
           widget: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -53,29 +53,6 @@ class ButtonAvartarWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              // Container(
-              //   width: 64.w,
-              //   height: 64.h,
-              //   padding: const EdgeInsets.only(top: 9, right: 8, left: 8),
-              //   decoration: BoxDecoration(
-              //     gradient: const LinearGradient(
-              //       colors: [
-              //         AppColors.kBrightPurpleColor,
-              //         AppColors.kDarkPurpleColor,
-              //       ],
-              //       begin: Alignment.topCenter,
-              //       end: Alignment.bottomCenter,
-              //     ),
-              //     color: AppColors.kPurplePurpleColor,
-              //     borderRadius: BorderRadius.circular(48).r,
-              //   ),
-              //   child: CustomSvg(
-              //     image: AppImages.iconVector,
-              //     height: 55.h,
-              //     width: 48.w,
-              //     fit: BoxFit.fitHeight,
-              //   ),
-              // ),
               SizedBox(
                 width: 223.w,
                 height: 52.h,

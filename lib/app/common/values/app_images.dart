@@ -152,4 +152,5 @@ class AppImages {
   static const String iconsArrowDownLine = 'assets/icons/arrow-down-s-line.svg';
   static const String iconsSendPlaneFill = 'assets/icons/send-plane-fill.svg';
   static const String iconsCamera = 'assets/icons/camera.svg';
+  static const String iconsImageFill = 'assets/icons/image_fill.svg';
 }

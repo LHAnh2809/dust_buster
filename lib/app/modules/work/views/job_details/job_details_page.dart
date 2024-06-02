@@ -9,6 +9,7 @@ import '../../../home/exports.dart';
 import '../../../widgets/custom_appbar_widget.dart';
 import '../../../widgets/text_field_widget.dart';
 import '../by_package/job_details/danh_gia/danh_gia_page.dart';
+import '../by_package/job_details/thay_yeu_cau/thay_yeu_cau.dart';
 import '../widgets/cancel_job_widget.dart';
 
 class JobDetailsPage extends GetView<WaitingController> {
@@ -69,8 +70,11 @@ class JobDetailsPage extends GetView<WaitingController> {
                   if (controller.orderStatuss == 5)
                     ButtonWidget(
                       onTap: () {
-                        Get.to(() =>
-                            DanhGiaPage(model: model, controller: controller));
+                        Get.to(() => DanhGiaPage(
+                              controller: controller,
+                              idPT: model.idPT.toString(),
+                              idID: model.idPT.toString(),
+                            ));
                       },
                       text: 'Đánh giá',
                     ),
@@ -87,7 +91,18 @@ class JobDetailsPage extends GetView<WaitingController> {
                     Column(
                       children: [
                         ButtonWidget(
-                          onTap: () {},
+                          onTap: () {
+                            Get.to(() => ThayYeuCau(
+                                  lable: int.parse(model.label.toString()),
+                                  premium: int.parse(
+                                      model.premiumService.toString()),
+                                  wordTime: model.workTime.toString(),
+                                  wordDay: model.workingDay.toString(),
+                                  money: int.parse(model.price.toString()),
+                                  label: int.parse(model.label.toString()),
+                                  id: model.idID!,
+                                ));
+                          },
                           text: 'Thay đổi yêu cầu',
                           colorBackGroud: AppColors.white,
                           boder: true.obs,
